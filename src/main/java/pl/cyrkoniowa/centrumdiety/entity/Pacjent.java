@@ -36,7 +36,7 @@ public class Pacjent {
     private String haslo;
 
     @Column(name="telefon")
-    private String numerTelefonu;
+    private String telefon;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ankieta_id", referencedColumnName = "id")
