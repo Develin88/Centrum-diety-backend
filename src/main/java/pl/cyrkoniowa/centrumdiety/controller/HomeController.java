@@ -5,14 +5,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class DemoController {
+public class HomeController {
 
 
 
-    @GetMapping("/hello")
-    public String sayHello(Model model) {
+    @GetMapping("/")
+    public String showHome() {
 
-        model.addAttribute("date", java.time.LocalDateTime.now());
-        return "helloworld";
+        return "home";
     }
 }
