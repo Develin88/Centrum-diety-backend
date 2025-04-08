@@ -1,19 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="pl">
-<head th:replace="~{staticElements/header :: commonHead('Centrum Diety - Strona główna')}"></head>
+<head th:replace="~{staticElements/header :: commonHead('Centrum Diety - podstrona dietetyka')}"></head>
 <body>
 <div class="alert alert-primary" role="alert">
-    Witamy na stronie Centrum Diety!
+    Witamy na podstronie dla dietetyka w Centrum Diety!
     <br/>
     Użytkownik: <span sec:authentication="principal.username"></span>
     <br/>
     Role: <span sec:authentication="principal.authorities"></span>
 </div>
 <div>
-    <a th:href="@{/}">Strona główna</a> <br/>
-
-    <div sec:authorize="hasRole('DIETITIAN')"><a th:href="@{/podstrona-dietetyk}">Podstrona dla dietetyków</a></div>
-    <div sec:authorize="hasRole('ADMIN')"><a th:href="@{/podstrona-admin}">Podstrona dla admina</a></div>
+    <a th:href="@{/}">Powrót do strony głównej</a>
 </div>
 <div>
     <form action="#" th:action="@{/logout}" method="post">
