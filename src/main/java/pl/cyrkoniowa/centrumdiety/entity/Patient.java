@@ -48,6 +48,6 @@ public class Patient {
             joinColumns = @JoinColumn(name = "patient_id"),
             inverseJoinColumns = @JoinColumn(name = "diet_id")
     )
-    private List<Diet> diety = new ArrayList<>();
+    private List<Diet> diets = new ArrayList<>();
 }
 

@@ -2,8 +2,8 @@ package pl.cyrkoniowa.centrumdiety.service;
 
 
 import org.springframework.security.core.userdetails.UserDetailsService;
-import pl.cyrkoniowa.centrumdiety.entity.User;
+import pl.cyrkoniowa.centrumdiety.entity.Account;
 
 public interface UserService extends UserDetailsService {
-    public User findByUserName(String username);
+    Account findByUserName(String userName);
 }

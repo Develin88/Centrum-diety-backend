@@ -21,12 +21,12 @@ public class Diet {
 
     @ManyToMany
     @JoinTable(
-            name = "przepis_dieta",
-            joinColumns = @JoinColumn(name = "dieta_id"),
-            inverseJoinColumns = @JoinColumn(name = "przepis_id")
+            name = "recipe_diet",
+            joinColumns = @JoinColumn(name = "diet_id"),
+            inverseJoinColumns = @JoinColumn(name = "recipe_id")
     )
-    private List<Recipe> przepisy = new ArrayList<>();
+    private List<Recipe> recipes = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "diety")
-    private List<Patient> pacjenci = new ArrayList<>();
+    @ManyToMany(mappedBy = "diets")
+    private List<Patient> patients = new ArrayList<>();
 }

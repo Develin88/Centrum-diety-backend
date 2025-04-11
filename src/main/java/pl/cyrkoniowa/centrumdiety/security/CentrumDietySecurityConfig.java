@@ -23,6 +23,7 @@ public class CentrumDietySecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(UserService userService) {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userService);
