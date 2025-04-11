@@ -8,15 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="dieta")
+@Table(name="diet")
 @Getter
 @Setter
-public class Dieta {
+public class Diet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="nazwa")
+    @Column(name="name")
     private String nazwa;
 
     @ManyToMany
@@ -25,8 +25,8 @@ public class Dieta {
             joinColumns = @JoinColumn(name = "dieta_id"),
             inverseJoinColumns = @JoinColumn(name = "przepis_id")
     )
-    private List<Przepis> przepisy = new ArrayList<>();
+    private List<Recipe> przepisy = new ArrayList<>();
 
     @ManyToMany(mappedBy = "diety")
-    private List<Pacjent> pacjenci = new ArrayList<>();
+    private List<Patient> pacjenci = new ArrayList<>();
 }

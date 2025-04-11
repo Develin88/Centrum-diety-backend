@@ -5,16 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="ankieta")
+@Table(name= "questionnaire")
 @Getter
 @Setter
-public class Ankieta {
+public class Questionnaire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="wzrost")
-    private int wzrost;
+    @Column(name="height")
+    private int height;
 
 //    @OneToOne(mappedBy = "ankieta")
 //    private Pacjent pacjent;

@@ -8,26 +8,26 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="konsultacja")
+@Table(name="consultation")
 @Getter
 @Setter
-public class Konsultacja {
+public class Consultation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="termin_konsultacji")
+    @Column(name="consultation_date")
     private LocalDateTime terminKonsultacji;
 
-    @Column(name="temat")
-    private String temat;
+    @Column(name="subject")
+    private String subject;
 
     @ManyToOne
-    @JoinColumn(name = "pacjent_id", nullable = false)
-    private Pacjent pacjent;
+    @JoinColumn(name = "patient_id", nullable = false)
+    private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "dietetyk_id", nullable = false)
-    private Dietetyk dietetyk;
+    @JoinColumn(name = "dietitian_id", nullable = false)
+    private Dietitian dietitian;
 }

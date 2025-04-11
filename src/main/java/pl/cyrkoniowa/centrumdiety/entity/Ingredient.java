@@ -8,17 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="skladnik")
+@Table(name="ingredient")
 @Getter
 @Setter
-public class Skladnik {
+public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="nazwa_skladnika")
-    private String nazwaSkladnika;
+    @Column(name="name")
+    private String name;
 
-    @ManyToMany(mappedBy = "listaSkladnikow")
-    private List<Przepis> przepisy = new ArrayList<>();
+    @ManyToMany(mappedBy = "ingredientsList")
+    private List<Recipe> recipes = new ArrayList<>();
 }
