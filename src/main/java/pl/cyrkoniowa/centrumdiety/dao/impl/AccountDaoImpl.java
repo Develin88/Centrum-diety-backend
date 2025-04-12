@@ -2,6 +2,7 @@ package pl.cyrkoniowa.centrumdiety.dao.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Repository;
 import pl.cyrkoniowa.centrumdiety.dao.AccountDao;
 import pl.cyrkoniowa.centrumdiety.entity.Account;
@@ -19,12 +20,20 @@ public class AccountDaoImpl implements AccountDao {
         //pobranie użytkownika z bazy po nazwie na podstawie nazwy uzytkownika
         TypedQuery<Account> theQuery = entityManager.createQuery("from Account where userName=:uName and enabled=true ", Account.class);
         theQuery.setParameter("uName", theUserName);
-        Account theUser = null;
+        Account account = null;
         try {
-            theUser = theQuery.getSingleResult();
+            account = theQuery.getSingleResult();
         } catch (Exception e) {
         }
 
-        return theUser;
+        return account;
     }
+
+    @Override
+    @Transactional
+    public void save(Account account) {
+        // create the user ... finally LOL
+        entityManager.merge(account);
+    }
+
 }

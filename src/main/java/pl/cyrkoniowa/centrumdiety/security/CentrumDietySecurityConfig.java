@@ -4,16 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import pl.cyrkoniowa.centrumdiety.service.UserService;
-
-import javax.sql.DataSource;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import pl.cyrkoniowa.centrumdiety.service.AccountService;
 
 @Configuration
 public class CentrumDietySecurityConfig {
@@ -24,9 +18,9 @@ public class CentrumDietySecurityConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(UserService userService) {
+    public DaoAuthenticationProvider daoAuthenticationProvider(AccountService accountService) {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userService);
+        daoAuthenticationProvider.setUserDetailsService(accountService);
         daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
         return daoAuthenticationProvider;
     }
@@ -68,18 +62,20 @@ public class CentrumDietySecurityConfig {
 //    }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception {
         http.authorizeHttpRequests(configurer ->
                 configurer
                         .requestMatchers("/css/**", "/js/**").permitAll()
                         .requestMatchers("/podstrona-dietetyk").hasRole("DIETITIAN")
                         .requestMatchers("/podstrona-admin").hasRole("ADMIN")
+                        .requestMatchers("/register/**").permitAll()
                         .anyRequest()
                         .authenticated()
         ).formLogin(form ->
                 form
                         .loginPage("/showLoginPage")
                         .loginProcessingUrl("/authenticateUser")
+                        .successHandler(customAuthenticationSuccessHandler)
                         .defaultSuccessUrl("/", true)
                         .failureUrl("/showLoginPage?error")
                         .permitAll()
