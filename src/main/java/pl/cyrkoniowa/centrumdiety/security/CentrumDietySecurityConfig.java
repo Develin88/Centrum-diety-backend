@@ -66,8 +66,9 @@ public class CentrumDietySecurityConfig {
         http.authorizeHttpRequests(configurer ->
                 configurer
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                        .requestMatchers("/podstrona-dietetyk").hasRole("DIETITIAN")
-                        .requestMatchers("/podstrona-admin").hasRole("ADMIN")
+                        .requestMatchers("/dashboard").hasAnyRole("DIETITIAN","PATIENT")
+                        .requestMatchers("/dashboard-dietetyk").hasRole("DIETITIAN")
+                        .requestMatchers("/dashboard-patient").hasRole("PATIENT")
                         .requestMatchers("/register/**").permitAll()
                         .anyRequest()
                         .authenticated()
@@ -75,8 +76,8 @@ public class CentrumDietySecurityConfig {
                 form
                         .loginPage("/login")
                         .loginProcessingUrl("/authenticateUser")
+                        .defaultSuccessUrl("/dashboard", true)
                         .successHandler(customAuthenticationSuccessHandler)
-                        .defaultSuccessUrl("/", true)
                         .failureHandler((request, response, exception) -> {
                             // Zapisujemy błąd w sesji
                             request.getSession().setAttribute("loginError", "Niepoprawny login lub hasło.");

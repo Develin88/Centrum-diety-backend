@@ -15,7 +15,7 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private AccountService accountService;
+    private final AccountService accountService;
 
     public CustomAuthenticationSuccessHandler(AccountService theAccountService) {
         accountService = theAccountService;
@@ -35,10 +35,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         //Włożenie danych użytkownika do sesji
         HttpSession session = request.getSession();
-        session.setAttribute("user", account);
+        session.setAttribute("account", account);
 
         //przekierowanie na stronę główną
-        response.sendRedirect(request.getContextPath() + "/");
+        response.sendRedirect(request.getContextPath() + "/dashboard");
     }
 
 }
