@@ -61,9 +61,9 @@ public class AccountServiceImpl implements AccountService {
         // assign user details to the user object
         account.setUserName(userRegistrationDto.getUserName());
         account.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
-//        account.setFirstName(webUser.getFirstName());
-//        account.setLastName(webUser.getLastName());
-//        account.setEmail(webUser.getEmail());
+        account.setFirstName(userRegistrationDto.getFirstName());
+        account.setLastName(userRegistrationDto.getLastName());
+        account.setEmail(userRegistrationDto.getEmail());
         account.setEnabled(true);
 
         // give user default role of "employee"

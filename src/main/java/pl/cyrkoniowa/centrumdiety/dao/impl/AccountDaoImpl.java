@@ -17,7 +17,7 @@ public class AccountDaoImpl implements AccountDao {
 
     @Override
     public Account findByUserName(String theUserName) {
-        //pobranie użytkownika z bazy po nazwie na podstawie nazwy uzytkownika
+        //Pobranie użytkownika z bazy po nazwie na podstawie nazwy uzytkownika
         TypedQuery<Account> theQuery = entityManager.createQuery("from Account where userName=:uName and enabled=true ", Account.class);
         theQuery.setParameter("uName", theUserName);
         Account account = null;
@@ -32,7 +32,7 @@ public class AccountDaoImpl implements AccountDao {
     @Override
     @Transactional
     public void save(Account account) {
-        // create the user ... finally LOL
+        // Tworzenie usera
         entityManager.merge(account);
     }
 

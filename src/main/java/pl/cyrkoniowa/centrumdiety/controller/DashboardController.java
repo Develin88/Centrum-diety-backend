@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import pl.cyrkoniowa.centrumdiety.entity.Account;
 import org.springframework.security.core.Authentication;
+import pl.cyrkoniowa.centrumdiety.security.Roles;
 
 import java.util.logging.Logger;
 
@@ -31,17 +32,24 @@ public class DashboardController {
         if (authentication != null) {
             // Sprawdzamy, czy użytkownik ma rolę "PATIENT"
             boolean isPatient = authentication.getAuthorities().stream()
-                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_PATIENT"));
+                    .anyMatch(authority -> authority.getAuthority().equals(Roles.PATIENT.getRoleNameWithPrefix()));
             if (isPatient) {
                 // Jeśli użytkownik ma rolę PATIENT
                 return "redirect:/patient-dashboard";
             }
             // Sprawdzamy, czy użytkownik ma rolę "DIETITIAN"
             boolean isDietitian = authentication.getAuthorities().stream()
-                    .anyMatch(authority -> authority.getAuthority().equals("ROLE_DIETITIAN"));
+                    .anyMatch(authority -> authority.getAuthority().equals(Roles.DIETITIAN.getRoleNameWithPrefix()));
             if (isDietitian) {
                 // Jeśli użytkownik ma rolę DIETITIAN
                 return "redirect:/dietitian-dashboard";
+            }
+            // Sprawdzamy, czy użytkownik ma rolę "ADMIN"
+            boolean isAdmin = authentication.getAuthorities().stream()
+                    .anyMatch(authority -> authority.getAuthority().equals(Roles.ADMIN.getRoleNameWithPrefix()));
+            if (isAdmin) {
+                // Jeśli użytkownik ma rolę ADMIN
+                return "redirect:/admin-dashboard";
             }
         }
         return "redirect:/login";
@@ -55,5 +63,10 @@ public class DashboardController {
     @GetMapping("/dietitian-dashboard")
     public String showDietitianDashboard() {
         return "patient/dashboard";
+    }
+
+    @GetMapping("/admin-dashboard")
+    public String showAdminDashboard() {
+        return "admin/dashboard";
     }
 }

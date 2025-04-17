@@ -36,6 +36,8 @@ public class Patient {
     @JoinColumn(name = "questionnaire_id", referencedColumnName = "id")
     private Questionnaire questionnaire;
 
+
+
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<Consultation> consultations = new ArrayList<>();
 

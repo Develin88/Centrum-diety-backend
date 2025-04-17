@@ -66,9 +66,10 @@ public class CentrumDietySecurityConfig {
         http.authorizeHttpRequests(configurer ->
                 configurer
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                        .requestMatchers("/dashboard").hasAnyRole("DIETITIAN","PATIENT")
-                        .requestMatchers("/dashboard-dietetyk").hasRole("DIETITIAN")
-                        .requestMatchers("/dashboard-patient").hasRole("PATIENT")
+                        .requestMatchers("/dashboard").hasAnyRole(Roles.DIETITIAN.getRoleName(),Roles.PATIENT.getRoleName(),Roles.ADMIN.getRoleName())
+                        .requestMatchers("/dietetyk-dashboard").hasRole(Roles.DIETITIAN.getRoleName())
+                        .requestMatchers("/patient-dashboard").hasRole(Roles.PATIENT.getRoleName())
+                        .requestMatchers("/admin-dashboard").hasRole(Roles.ADMIN.getRoleName())
                         .requestMatchers("/register/**").permitAll()
                         .anyRequest()
                         .authenticated()
