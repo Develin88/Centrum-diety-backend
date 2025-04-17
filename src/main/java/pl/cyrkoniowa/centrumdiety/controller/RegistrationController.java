@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.cyrkoniowa.centrumdiety.entity.Account;
 import pl.cyrkoniowa.centrumdiety.service.AccountService;
-import pl.cyrkoniowa.centrumdiety.user.WebUser;
+import pl.cyrkoniowa.centrumdiety.dto.UserRegistrationDto;
 
 @Controller
 @RequestMapping("/register")
@@ -26,7 +26,7 @@ public class RegistrationController {
 
 	private final Logger logger = Logger.getLogger(getClass().getName());
 
-    private AccountService accountService;
+    private final AccountService accountService;
 
 	@Autowired
 	public RegistrationController(AccountService accountService) {
@@ -40,43 +40,35 @@ public class RegistrationController {
 	}
 
 	@GetMapping("/showRegistrationForm")
-	public String showMyLoginPage(Model theModel) {
-		theModel.addAttribute("webUser", new WebUser());
+	public String showMyLoginPage(Model model) {
+		model.addAttribute("userRegistrationDto", new UserRegistrationDto());
 		return "register/registration-form";
 	}
 
 	@PostMapping("/processRegistrationForm")
 	public String processRegistrationForm(
-			@Valid @ModelAttribute("webUser") WebUser theWebUser,
-			BindingResult theBindingResult,
-			HttpSession session, Model theModel) {
+			@Valid @ModelAttribute("userRegistrationDto") UserRegistrationDto userRegistrationDto,
+			BindingResult bindingResult,
+			HttpSession session, Model model) {
 
-		String userName = theWebUser.getUserName();
+		String userName = userRegistrationDto.getUserName();
 		logger.info("Processing registration form for: " + userName);
-
-		// form validation
-		 if (theBindingResult.hasErrors()){
+		//Walidacja formularza
+		 if (bindingResult.hasErrors()){
 			 return "register/registration-form";
 		 }
-
-		// check the database if user already exists
         Account existing = accountService.findByUserName(userName);
         if (existing != null){
-        	theModel.addAttribute("webUser", new WebUser());
-			theModel.addAttribute("registrationError", "User name already exists.");
-
-			logger.warning("User name already exists.");
+			model.addAttribute("userRegistrationDto", new UserRegistrationDto());
+			model.addAttribute("registrationError", "Użytkownik o takim loginie jest już zarejestrowany.");
+			logger.warning("Użytkownik o takim loginie jest już zarejestrowany: " + userName);
         	return "register/registration-form";
         }
-
-        // create user account and store in the databse
-		accountService.save(theWebUser);
-
-        logger.info("Successfully created user: " + userName);
-
-		// place user in the web http session for later use
-		session.setAttribute("user", theWebUser);
-
+        // Stworzenie użytkownika i zapis go w bazie danych
+		accountService.save(userRegistrationDto);
+        logger.info("Użytkownik stworzony poprawnie: " + userName);
+		//Ustawienie użytkownika w sesji
+		session.setAttribute("user", userRegistrationDto);
         return "register/registration-confirmation";
 	}
 }

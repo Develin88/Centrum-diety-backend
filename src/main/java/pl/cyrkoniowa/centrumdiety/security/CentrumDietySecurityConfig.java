@@ -65,7 +65,7 @@ public class CentrumDietySecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception {
         http.authorizeHttpRequests(configurer ->
                 configurer
-                        .requestMatchers("/css/**", "/js/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/podstrona-dietetyk").hasRole("DIETITIAN")
                         .requestMatchers("/podstrona-admin").hasRole("ADMIN")
                         .requestMatchers("/register/**").permitAll()
@@ -73,13 +73,22 @@ public class CentrumDietySecurityConfig {
                         .authenticated()
         ).formLogin(form ->
                 form
-                        .loginPage("/showLoginPage")
+                        .loginPage("/login")
                         .loginProcessingUrl("/authenticateUser")
                         .successHandler(customAuthenticationSuccessHandler)
                         .defaultSuccessUrl("/", true)
-                        .failureUrl("/showLoginPage?error")
+                        .failureHandler((request, response, exception) -> {
+                            // Zapisujemy błąd w sesji
+                            request.getSession().setAttribute("loginError", "Niepoprawny login lub hasło.");
+                            response.sendRedirect("/login");
+                        })
                         .permitAll()
-        ).logout(logout -> logout.permitAll()
+        ).logout(logout -> logout
+                .logoutUrl("/logout") // Domyślny URL, który służy do wylogowania
+                .logoutSuccessHandler((request, response, authentication) -> {
+                    request.getSession().setAttribute("loginInfo", "Zostałeś wylogowany.");
+                    response.sendRedirect("/login");
+                }).permitAll()
         ).exceptionHandling(configurer -> configurer.accessDeniedPage("/accessDenied"));
         return http.build();
     }

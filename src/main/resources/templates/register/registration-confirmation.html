@@ -1,21 +1,34 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pl">
-<head th:replace="~{staticElements/header :: commonHead('Rejestracja')}"></head>
-<body>
-<h2>User registered successfully!</h2>
-
-<!-- display first name, last name and email -->
-<ul>
-    <li th:text="'User name: ' + ${webUser.userName}"></li>
-    <li th:text="'First name: ' + ${webUser.firstName}"></li>
-    <li th:text="'Last name: ' + ${webUser.lastName}"></li>
-    <li th:text="'Email name: ' + ${webUser.email}"></li>
-</ul>
-
-<hr>
-
-<a th:href="@{/showMyLoginPage}">Login with new user name</a>
+<head th:replace="~{staticElements/header :: commonHead('Rejestracja')}"><title>Centrum Diety</title></head>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="~{staticElements/header :: bodyHeader}"></header>
+<main class="container mt-5 mb-3 d-flex justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card border-success">
+            <div class="card-header bg-success text-white text-center">
+                Rejestracja
+            </div>
+            <div class="card-body">
+                <div class="card-text">
+                    <div class="col-xs-15">
+                        <div>
+                            <div>
+                                <div class="alert alert-success col-xs-offset-1 col-xs-10">
+                                    <span>Dziękujemy za rejestrację. Zaloguj się do serwisu korzystając z przycisku poniżej.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="controls d-flex justify-content-center">
+                        <a href="/login" class="btn btn-success">Przejdź do strony logowania</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{staticElements/footer :: footer}"></footer>
 <script th:replace="~{staticElements/footer :: bootstrapJS}"></script>
 </body>
-
 </html>

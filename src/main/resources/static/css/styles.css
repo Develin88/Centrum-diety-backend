@@ -1,5 +1,12 @@
-.funny{
-    color: #ff6347;
-    font-size: 22px;
-    font-weight: bold;
+/*.navbar-nav.centered {*/
+/*    margin: 0 auto;*/
+/*    display: flex;*/
+/*    gap: 0.5rem;*/
+/*}*/
+/* Dla płynnego oddzielenia (opcjonalne) */
+nav {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+body {
+    font-family: 'Poppins', sans-serif;
 }

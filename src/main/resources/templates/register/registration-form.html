@@ -1,122 +1,131 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pl">
-<head th:replace="~{staticElements/header :: commonHead('Rejestracja')}"></head>
-<body>
-<div class="container">
-
-    <div id="loginbox" style="margin-top: 50px;"
-         class="col-md-3 col-md-offset-2 col-sm-6 col-sm-offset-2">
-
-        <div class="card border-info">
-
-            <div class="card-header bg-info">
-                New User Registration
+<head th:replace="~{staticElements/header :: commonHead('Rejestracja')}"><title>Centrum Diety</title></head>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="~{staticElements/header :: bodyHeader}"></header>
+<main class="container mt-5 mb-3 d-flex justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card border-success">
+            <div class="card-header bg-success text-white text-center">
+                Rejestracja
             </div>
-
             <div class="card-body">
-
                 <div class="card-text">
-
-                    <!-- Registration Form -->
-                    <form action="#" th:action="@{/register/processRegistrationForm}"
-                          th:object="${webUser}"
-                          method="POST" class="form-horizontal">
-
-                        <!-- Place for messages: error, alert etc ... -->
-                        <div class="form-group">
+                    <form action="#"
+                          th:action="@{/register/processRegistrationForm}"
+                          th:object="${userRegistrationDto}"
+                          method="POST"
+                          class="form-horizontal">
+                        <div class="form-group"  th:if="${registrationError}">
                             <div class="col-xs-15">
                                 <div>
-
-                                    <!-- Check for login error -->
-
-                                    <div th:if="${param.registrationError}">
-
+                                    <div>
                                         <div class="alert alert-danger col-xs-offset-1 col-xs-10">
-                                            <span th:text="${param.registrationError}"></span>
+                                            <span th:text="${registrationError}"></span>
                                         </div>
-
                                     </div>
-
                                 </div>
                             </div>
                         </div>
-
-                        <!-- User name -->
-                        <div style="margin-bottom: 25px" class="input-group">
-                            <input type="text" th:field="*{userName}" placeholder="Username (*)" class="form-control"/>
-                        </div>
-
-                        <div th:if="${#fields.hasErrors('userName')}"
-                             style="margin-bottom: 25px" class="text-danger">
-                            <ul>
-                                <li th:each="err : ${#fields.errors('userName')}" th:text="'User name ' + ${err}"/>
-                            </ul>
-                        </div>
-
-                        <!-- Password -->
-                        <div style="margin-bottom: 25px" class="input-group">
-                            <input type="text" th:field="*{password}" placeholder="Password (*)" class="form-control"/>
-                        </div>
-
-                        <div th:if="${#fields.hasErrors('password')}"
-                             style="margin-bottom: 25px" class="text-danger">
-                            <ul>
-                                <li th:each="err : ${#fields.errors('password')}" th:text="'Password ' + ${err}"/>
-                            </ul>
-                        </div>
-
-                        <!-- First Name -->
-                        <div style="margin-bottom: 25px" class="input-group">
-                            <input type="text" th:field="*{firstName}" placeholder="First name (*)"
-                                   class="form-control"/>
-                        </div>
-
-                        <div th:if="${#fields.hasErrors('firstName')}"
-                             style="margin-bottom: 25px" class="text-danger">
-                            <ul>
-                                <li th:each="err : ${#fields.errors('firstName')}" th:text="'First name ' + ${err}"/>
-                            </ul>
-                        </div>
-
-                        <!-- Last Name -->
-                        <div style="margin-bottom: 25px" class="input-group">
-                            <input type="text" th:field="*{lastName}" placeholder="Last name (*)" class="form-control"/>
-                        </div>
-
-                        <div th:if="${#fields.hasErrors('lastName')}"
-                             style="margin-bottom: 25px" class="text-danger">
-                            <ul>
-                                <li th:each="err : ${#fields.errors('lastName')}" th:text="'Last name ' + ${err}"/>
-                            </ul>
-                        </div>
-
-                        <!-- Email -->
-                        <div style="margin-bottom: 25px" class="input-group">
-                            <input type="text" th:field="*{email}" placeholder="Email (*)" class="form-control"/>
-                        </div>
-
-                        <div th:if="${#fields.hasErrors('email')}"
-                             style="margin-bottom: 25px" class="text-danger">
-                            <ul>
-                                <li th:each="err : ${#fields.errors('email')}" th:text="'Email ' + ${err}"/>
-                            </ul>
-                        </div>
-
-                        <!-- Registration Button -->
-                        <div style="margin-top: 10px" class="form-group">
-                            <div class="col-sm-6 controls">
-                                <button type="submit" class="btn btn-primary">Register</button>
+                        <div class="form-floating mb-3">
+                            <input
+                                    th:field="*{userName}"
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    placeholder="Login"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('userName') ? ' is-invalid' : ''}"
+                                    autocomplete="username"
+                                    aria-describedby="usernameValidationFeedback"
+                                    required=""/>
+                            <label for="username">Login</label>
+                            <div id="usernameValidationFeedback" class="invalid-feedback">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('userName')}" th:text="${err}"/>
+                                </ul>
                             </div>
                         </div>
-
+                        <div class="form-floating mb-3">
+                            <input th:field="*{password}"
+                                   type="password"
+                                   id="password"
+                                   name="password"
+                                   placeholder="hasło"
+                                   class="form-control"
+                                   th:classappend="${#fields.hasErrors('password') ? ' is-invalid' : ''}"
+                                   autocomplete="current-password"
+                                   aria-describedby="passwordValidationFeedback"
+                                   required=""/>
+                            <label for="password">Hasło</label>
+                            <div id="passwordValidationFeedback" class="invalid-feedback">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('password')}" th:text="${err}"/>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input th:field="*{firstName}"
+                                   type="text"
+                                   id="firstName"
+                                   name="firstName"
+                                   placeholder="Imię"
+                                   class="form-control"
+                                   th:classappend="${#fields.hasErrors('firstName') ? ' is-invalid' : ''}"
+                                   aria-describedby="firstnameValidationFeedback"
+                                   required=""/>
+                            <label for="firstName">Imię</label>
+                            <div id="firstnameValidationFeedback" class="invalid-feedback">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('firstName')}" th:text="${err}"/>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input th:field="*{lastName}"
+                                   type="text"
+                                   id="lastName"
+                                   name="lastName"
+                                   placeholder="Nazwisko"
+                                   class="form-control"
+                                   th:classappend="${#fields.hasErrors('lastName') ? ' is-invalid' : ''}"
+                                   aria-describedby="lastnameValidationFeedback"
+                                   required=""/>
+                            <label for="lastName">Nazwisko</label>
+                            <div id="lastnameValidationFeedback" class="invalid-feedback">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('lastName')}" th:text="${err}"/>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input th:field="*{email}" type="text"
+                                   id="email"
+                                   name="email"
+                                   placeholder="Email"
+                                   class="form-control"
+                                   th:classappend="${#fields.hasErrors('email') ? ' is-invalid' : ''}"
+                                   aria-describedby="emailValidationFeedback"
+                                   required=""/>
+                            <label for="email">Email</label>
+                            <div id="emailValidationFeedback" class="invalid-feedback">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('email')}" th:text="${err}"/>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="controls d-flex justify-content-center controls">
+                                <button type="submit" class="btn btn-success">Zarejestruj</button>
+                            </div>
+                        </div>
                     </form>
-
                 </div>
-
             </div>
-
         </div>
     </div>
-</div>
+</main>
+<footer th:replace="~{staticElements/footer :: footer}"></footer>
 <script th:replace="~{staticElements/footer :: bootstrapJS}"></script>
 </body>
+</html>

@@ -12,7 +12,7 @@ import pl.cyrkoniowa.centrumdiety.dao.AccountDao;
 import pl.cyrkoniowa.centrumdiety.entity.Role;
 import pl.cyrkoniowa.centrumdiety.entity.Account;
 import pl.cyrkoniowa.centrumdiety.service.AccountService;
-import pl.cyrkoniowa.centrumdiety.user.WebUser;
+import pl.cyrkoniowa.centrumdiety.dto.UserRegistrationDto;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -55,12 +55,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void save(WebUser webUser) {
+    public void save(UserRegistrationDto userRegistrationDto) {
         Account account = new Account();
 
         // assign user details to the user object
-        account.setUserName(webUser.getUserName());
-        account.setPassword(passwordEncoder.encode(webUser.getPassword()));
+        account.setUserName(userRegistrationDto.getUserName());
+        account.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
 //        account.setFirstName(webUser.getFirstName());
 //        account.setLastName(webUser.getLastName());
 //        account.setEmail(webUser.getEmail());

@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<body>
+<!-- Jasne menu z zielonymi przyciskami -->
+<nav th:fragment="patientNav" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
+            <ul class="navbar-nav d-flex flex-row gap-2">
+                <li class="nav-item">
+                    <a class="btn btn-outline-success" href="#">Twoje wizyty</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-success" href="#">Twój plan dietetyczny</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-success" href="#">Twoja grupa wsparcia</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-success" href="#">Twój plan treningowy</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</body>
+</html>
