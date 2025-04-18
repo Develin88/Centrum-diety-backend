@@ -9,14 +9,29 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import pl.cyrkoniowa.centrumdiety.service.AccountService;
 
+/**
+ * Klasa konfiguracyjna zabezpieczeń aplikacji Centrum Diety.
+ * Definiuje ustawienia uwierzytelniania, autoryzacji i inne aspekty bezpieczeństwa.
+ */
 @Configuration
 public class CentrumDietySecurityConfig {
 
+    /**
+     * Tworzy i konfiguruje enkoder haseł BCrypt.
+     *
+     * @return skonfigurowany obiekt BCryptPasswordEncoder
+     */
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Tworzy i konfiguruje dostawcę uwierzytelniania DAO.
+     *
+     * @param accountService serwis obsługujący operacje na kontach użytkowników
+     * @return skonfigurowany obiekt DaoAuthenticationProvider
+     */
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(AccountService accountService) {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -61,6 +76,16 @@ public class CentrumDietySecurityConfig {
 //        return new InMemoryUserDetailsManager(michal, ewelina, admin);
 //    }
 
+    /**
+     * Konfiguruje łańcuch filtrów bezpieczeństwa dla aplikacji.
+     * Definiuje reguły dostępu do zasobów, konfigurację formularza logowania,
+     * obsługę wylogowania i inne aspekty bezpieczeństwa.
+     *
+     * @param http obiekt konfiguracji bezpieczeństwa HTTP
+     * @param customAuthenticationSuccessHandler niestandardowy handler udanego uwierzytelnienia
+     * @return skonfigurowany łańcuch filtrów bezpieczeństwa
+     * @throws Exception w przypadku błędu konfiguracji
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationSuccessHandler customAuthenticationSuccessHandler) throws Exception {
         http.authorizeHttpRequests(configurer ->
@@ -71,6 +96,7 @@ public class CentrumDietySecurityConfig {
                         .requestMatchers("/patient-dashboard").hasRole(Roles.PATIENT.getRoleName())
                         .requestMatchers("/admin-dashboard").hasRole(Roles.ADMIN.getRoleName())
                         .requestMatchers("/register/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole(Roles.ADMIN.getRoleName())
                         .anyRequest()
                         .authenticated()
         ).formLogin(form ->
@@ -95,5 +121,3 @@ public class CentrumDietySecurityConfig {
         return http.build();
     }
 }
-
-

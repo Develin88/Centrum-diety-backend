@@ -20,6 +20,9 @@ import pl.cyrkoniowa.centrumdiety.entity.Account;
 import pl.cyrkoniowa.centrumdiety.service.AccountService;
 import pl.cyrkoniowa.centrumdiety.dto.UserRegistrationDto;
 
+/**
+ * Kontroler odpowiedzialny za obsługę procesu rejestracji użytkowników.
+ */
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {
@@ -28,23 +31,47 @@ public class RegistrationController {
 
     private final AccountService accountService;
 
+	/**
+	 * Konstruktor kontrolera rejestracji.
+	 *
+	 * @param accountService serwis obsługujący operacje na kontach użytkowników
+	 */
 	@Autowired
 	public RegistrationController(AccountService accountService) {
 		this.accountService = accountService;
 	}
 
+	/**
+	 * Inicjalizuje binder do przetwarzania danych formularza.
+	 * Usuwa białe znaki z pól tekstowych.
+	 *
+	 * @param dataBinder binder do przetwarzania danych formularza
+	 */
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
 		StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
 		dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
 	}
 
+	/**
+	 * Wyświetla formularz rejestracji.
+	 * @param model model do przekazywania danych do widoku
+	 * @return nazwa widoku formularza rejestracji
+	 */
 	@GetMapping("/showRegistrationForm")
 	public String showMyLoginPage(Model model) {
 		model.addAttribute("userRegistrationDto", new UserRegistrationDto());
 		return "register/registration-form";
 	}
 
+	/**
+	 * Przetwarza formularz rejestracji.
+	 * @param userRegistrationDto dane użytkownika z formularza
+	 * @param bindingResult wynik walidacji formularza
+	 * @param session sesja HTTP
+	 * @param model model do przekazywania danych do widoku
+	 * @return nazwa widoku potwierdzenia rejestracji
+	 */
 	@PostMapping("/processRegistrationForm")
 	public String processRegistrationForm(
 			@Valid @ModelAttribute("userRegistrationDto") UserRegistrationDto userRegistrationDto,

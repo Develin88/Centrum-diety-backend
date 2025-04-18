@@ -11,11 +11,22 @@ public class RoleDaoImpl implements RoleDao {
 
     private EntityManager entityManager;
 
+    /**
+     * Konstruktor klasy RoleDaoImpl.
+     *
+     * @param theEntityManager menedżer encji używany do operacji bazodanowych
+     */
     public RoleDaoImpl(EntityManager theEntityManager) {
         entityManager = theEntityManager;
     }
 
-
+    /**
+     * {@inheritDoc}
+     * Implementacja metody pobierającej rolę z bazy danych na podstawie jej nazwy.
+     *
+     * @param theRoleName nazwa roli do znalezienia
+     * @return obiekt Role jeśli znaleziono, null w przypadku błędu lub braku wyników
+     */
     @Override
     public Role findRoleByName(String theRoleName) {
         //Pobranie roli z bazy po nazwie

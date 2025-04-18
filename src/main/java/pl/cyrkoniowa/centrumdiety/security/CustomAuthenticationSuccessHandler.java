@@ -12,15 +12,34 @@ import pl.cyrkoniowa.centrumdiety.service.AccountService;
 
 import java.io.IOException;
 
+/**
+ * Niestandardowy handler obsługujący udane uwierzytelnienie użytkownika.
+ * Zapisuje dane użytkownika w sesji i przekierowuje na odpowiednią stronę.
+ */
 @Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final AccountService accountService;
 
+    /**
+     * Konstruktor handlera uwierzytelnienia.
+     *
+     * @param theAccountService serwis obsługujący operacje na kontach użytkowników
+     */
     public CustomAuthenticationSuccessHandler(AccountService theAccountService) {
         accountService = theAccountService;
     }
 
+    /**
+     * Metoda wywoływana po udanym uwierzytelnieniu użytkownika.
+     * Pobiera dane użytkownika, zapisuje je w sesji i przekierowuje na stronę główną.
+     *
+     * @param request żądanie HTTP
+     * @param response odpowiedź HTTP
+     * @param authentication obiekt zawierający dane uwierzytelnienia
+     * @throws IOException w przypadku błędu wejścia/wyjścia
+     * @throws ServletException w przypadku błędu serwletu
+     */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {

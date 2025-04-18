@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class LoginController {
 
+    /**
+     * Wyświetla stronę logowania.
+     * @param request żądanie HTTP
+     * @param model model do przekazywania danych do widoku
+     * @return nazwa widoku logowania
+     */
     @GetMapping("/login")
     public String showLoginPage(HttpServletRequest request, Model model){
         if(request.getSession().getAttribute("loginError") != null){
@@ -22,6 +28,10 @@ public class LoginController {
         return "login";
     }
 
+    /**
+     * Wyświetla stronę błędu dostępu.
+     * @return nazwa widoku błędu dostępu
+     */
     @GetMapping("/accessDenied")
     public String showAccessDenied(){
         return "access-denied";

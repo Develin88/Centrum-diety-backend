@@ -26,5 +26,54 @@
         </div>
     </div>
 </nav>
+
+<nav th:fragment="adminNav" class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar"
+                aria-controls="adminNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-center" id="adminNavbar">
+            <ul class="navbar-nav d-flex flex-row gap-2">
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary" th:href="@{/admin-dashboard}">Panel Administratora</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary" href="#">Zarządzanie Użytkownikami</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary" href="#">Ustawienia Systemu</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<nav th:fragment="dietitianNav" class="navbar navbar-expand-lg navbar-light bg-info shadow-sm">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dietitianNavbar"
+                aria-controls="dietitianNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-center" id="dietitianNavbar">
+            <ul class="navbar-nav d-flex flex-row gap-2">
+                <li class="nav-item">
+                    <a class="btn btn-outline-dark" th:href="@{/dietitian-dashboard}">Panel Dietetyka</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-dark" href="#">Twoi Pacjenci</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-dark" href="#">Plany Dietetyczne</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-dark" href="#">Harmonogram Wizyt</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 </body>
 </html>
