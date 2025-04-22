@@ -116,15 +116,15 @@ public class DashboardController {
      */
     @GetMapping("/admin-dashboard")
     public String showAdminDashboard(Model model) {
-        // Pobierz listę wszystkich pacjentów
-        List<Account> patients = accountService.findAllPatients();
-
-        // Pobierz listę wszystkich dietetyków
-        List<Account> dietitians = accountService.findAllDietitians();
-
-        // Dodaj listy do modelu
-        model.addAttribute("patients", patients);
-        model.addAttribute("dietitians", dietitians);
+//        // Pobierz listę wszystkich pacjentów
+//        List<Account> patients = accountService.findAllPatients();
+//
+//        // Pobierz listę wszystkich dietetyków
+//        List<Account> dietitians = accountService.findAllDietitians();
+//
+//        // Dodaj listy do modelu
+//        model.addAttribute("patients", patients);
+//        model.addAttribute("dietitians", dietitians);
 
         return "admin/dashboard";
     }

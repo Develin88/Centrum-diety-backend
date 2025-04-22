@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pl">
-<head th:replace="~{staticElements/header :: commonHead('Dashboard Dietetyka')}"><title>Centrum Diety</title></head>
+<head th:replace="~{staticElements/header :: commonHead('Dashboard Dietetyka')}">
+    <title>Centrum Diety</title>
+    <th:block th:fragment="extraHead"/>
+</head>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="~{staticElements/header :: bodyHeader}"></header>
 <nav th:replace="~{staticElements/nav :: dietitianNav}"></nav>
@@ -27,6 +30,5 @@
     </div>
 </main>
 <footer th:replace="~{staticElements/footer :: footer}"></footer>
-<script th:replace="~{staticElements/footer :: bootstrapJS}"></script>
 </body>
 </html>

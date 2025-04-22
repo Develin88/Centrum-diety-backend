@@ -1,7 +1,9 @@
 package pl.cyrkoniowa.centrumdiety.service;
 
 
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import pl.cyrkoniowa.centrumdiety.dto.AccountDTO;
 import pl.cyrkoniowa.centrumdiety.entity.Account;
 import pl.cyrkoniowa.centrumdiety.dto.UserRegistrationDto;
 
@@ -28,18 +30,24 @@ public interface AccountService extends UserDetailsService {
     void save(UserRegistrationDto userRegistrationDto);
 
     /**
-     * Pobiera listę wszystkich kont użytkowników z rolą Pacjent.
+     * Pobiera listę kont użytkowników z rolą Pacjent spełniających filtr wraz ze stronicowaniem.
      *
+     * @param textToSearch tekst do wyszukania
+     * @param pageNumber numer strony
+     * @param pageSize rozmiar strony
      * @return lista obiektów Account z rolą Pacjent
      */
-    List<Account> findAllPatients();
+    Page<AccountDTO> findPatientsByText(String textToSearch, int pageNumber, int pageSize);
 
     /**
-     * Pobiera listę wszystkich kont użytkowników z rolą Dietetyk.
+     * Pobiera listę kont użytkowników z rolą Dietetyk spełniających filtr wraz ze stronicowaniem.
      *
+     * @param textToSearch tekst do wyszukania
+     * @param pageNumber numer strony
+     * @param pageSize rozmiar strony
      * @return lista obiektów Account z rolą Dietetyk
      */
-    List<Account> findAllDietitians();
+    Page<AccountDTO> findDietitiansByText(String textToSearch, int pageNumber, int pageSize);
 
     /**
      * Promuje użytkownika z rolą Pacjent do roli Dietetyk.

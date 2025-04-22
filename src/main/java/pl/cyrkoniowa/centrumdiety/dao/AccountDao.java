@@ -24,12 +24,54 @@ public interface AccountDao {
      *
      * @return lista obiektów Account z rolą Pacjent
      */
-    List<Account> findAllPatients();
+    List<Account> findAllPatients(int pageNumber, int pageSize);
+
+    /**
+     * Zlicza ilość kont użytkowników z rolą Pacjent
+     *
+     * @return liczba obiektów Account z rolą Pacjent
+     */
+    long countAllPatients();
+
+    /**
+     * Pobiera listę kont użytkowników z rolą Pacjent spełniających filtr wraz ze stronicowaniem.
+     *
+     * @return lista obiektów Account z rolą Pacjent
+     */
+    List<Account> findPatientsByText(String textToSearch,int pageNumber, int pageSize);
+
+    /**
+     * Zlicza ilość kont użytkowników z rolą Pacjent spełniających filtr
+     *
+     * @return liczba obiektów Account z rolą Pacjent
+     */
+    long countPatientsByText(String textToSearch);
 
     /**
      * Pobiera listę wszystkich kont użytkowników z rolą Dietetyk.
      *
      * @return lista obiektów Account z rolą Dietetyk
      */
-    List<Account> findAllDietitians();
+    List<Account> findAllDietitians(int pageNumber, int pageSize);
+
+    /**
+     * Zlicza ilość kont użytkowników z rolą Dietetyk
+     *
+     * @return liczba obiektów Account z rolą Dietetyk
+     */
+    long countAllDietitians();
+
+    /**
+     * Pobiera listę kont użytkowników z rolą Dietetyk spełniających filtr wraz ze stronicowaniem.
+     *
+     * @return lista obiektów Account z rolą Dietetyk
+     */
+    List<Account> findDietitiansByText(String textToSearch,int pageNumber, int pageSize);
+
+    /**
+     * Zlicza ilość kont użytkowników z rolą Dietetyk spełniających filtr
+     *
+     * @return liczba obiektów Account z rolą Dietetyk
+     */
+    long countDietitiansByText(String textToSearch);
 }

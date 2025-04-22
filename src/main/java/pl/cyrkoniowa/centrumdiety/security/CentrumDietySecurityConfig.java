@@ -91,12 +91,11 @@ public class CentrumDietySecurityConfig {
         http.authorizeHttpRequests(configurer ->
                 configurer
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/register/**").permitAll()
                         .requestMatchers("/dashboard").hasAnyRole(Roles.DIETITIAN.getRoleName(),Roles.PATIENT.getRoleName(),Roles.ADMIN.getRoleName())
                         .requestMatchers("/dietetyk-dashboard").hasRole(Roles.DIETITIAN.getRoleName())
                         .requestMatchers("/patient-dashboard").hasRole(Roles.PATIENT.getRoleName())
-                        .requestMatchers("/admin-dashboard").hasRole(Roles.ADMIN.getRoleName())
-                        .requestMatchers("/register/**").permitAll()
-                        .requestMatchers("/admin/**").hasRole(Roles.ADMIN.getRoleName())
+                        .requestMatchers("/admin-dashboard","/api/accounts/**","/admin/**").hasRole(Roles.ADMIN.getRoleName())
                         .anyRequest()
                         .authenticated()
         ).formLogin(form ->

@@ -1,6 +1,9 @@
 package pl.cyrkoniowa.centrumdiety.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,16 +13,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.cyrkoniowa.centrumdiety.dao.RoleDao;
 import pl.cyrkoniowa.centrumdiety.dao.AccountDao;
+import pl.cyrkoniowa.centrumdiety.dto.AccountDTO;
 import pl.cyrkoniowa.centrumdiety.entity.Role;
 import pl.cyrkoniowa.centrumdiety.entity.Account;
 import pl.cyrkoniowa.centrumdiety.security.Roles;
 import pl.cyrkoniowa.centrumdiety.service.AccountService;
 import pl.cyrkoniowa.centrumdiety.dto.UserRegistrationDto;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -28,11 +29,11 @@ import java.util.stream.Collectors;
  */
 @Service
 public class AccountServiceImpl implements AccountService {
-    private AccountDao accountDao;
+    private final AccountDao accountDao;
 
-    private RoleDao roleDao;
+    private final RoleDao roleDao;
 
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     /**
      * Konstruktor klasy AccountServiceImpl.
@@ -118,25 +119,66 @@ public class AccountServiceImpl implements AccountService {
 
     /**
      * {@inheritDoc}
-     * Implementacja metody pobierającej listę wszystkich kont użytkowników z rolą Pacjent.
+     * Implementacja metody pobierającej listę kont użytkowników z rolą Pacjent spełniających filtr wraz ze stronicowaniem.
      *
+     * @param textToSearch tekst do wyszukania
+     * @param pageNumber numer strony
+     * @param pageSize rozmiar strony
      * @return lista obiektów Account z rolą Pacjent
      */
     @Override
-    public List<Account> findAllPatients() {
-        return accountDao.findAllPatients();
+    public Page<AccountDTO> findPatientsByText(String textToSearch, int pageNumber, int pageSize) {
+        List<AccountDTO> accountDtos;
+        long totalRecords;
+
+        if(textToSearch==null || textToSearch.isEmpty()){
+            List<Account> users = accountDao.findAllPatients(pageNumber, pageSize);
+            accountDtos = users.stream()
+                    .map(AccountDTO::new)
+                    .toList();
+            totalRecords = accountDao.countAllPatients();
+        }else{
+            List<Account> users = accountDao.findPatientsByText(textToSearch, pageNumber, pageSize);
+            accountDtos = users.stream()
+                    .map(AccountDTO::new)
+                    .toList();
+            totalRecords = accountDao.countPatientsByText(textToSearch);
+        }
+        return new PageImpl<>(accountDtos, PageRequest.of(pageNumber, pageSize), totalRecords);
     }
+
 
     /**
      * {@inheritDoc}
-     * Implementacja metody pobierającej listę wszystkich kont użytkowników z rolą Dietetyk.
+     * Implementacja metody pobierającej listę kont użytkowników z rolą Dietetyk spełniających filtr wraz ze stronicowaniem.
      *
+     * @param textToSearch tekst do wyszukania
+     * @param pageNumber numer strony
+     * @param pageSize rozmiar strony
      * @return lista obiektów Account z rolą Dietetyk
      */
     @Override
-    public List<Account> findAllDietitians() {
-        return accountDao.findAllDietitians();
+    public Page<AccountDTO> findDietitiansByText(String textToSearch, int pageNumber, int pageSize) {
+        List<AccountDTO> accountDtos;
+        long totalRecords;
+
+        if(textToSearch==null || textToSearch.isEmpty()){
+            List<Account> accounts = accountDao.findAllDietitians(pageNumber, pageSize);
+            accountDtos = accounts.stream()
+                    .map(AccountDTO::new)
+                    .toList();
+            totalRecords = accountDao.countAllDietitians();
+        }else{
+            List<Account> accounts = accountDao.findDietitiansByText(textToSearch, pageNumber, pageSize);
+            accountDtos = accounts.stream()
+                    .map(AccountDTO::new)
+                    .toList();
+            totalRecords = accountDao.countDietitiansByText(textToSearch);
+        }
+        return new PageImpl<>(accountDtos, PageRequest.of(pageNumber, pageSize), totalRecords);
     }
+
+
 
     /**
      * {@inheritDoc}

@@ -8,7 +8,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse justify-content-center" id="mainNavbar">
+        <div class="collapse navbar-collapse justify-content-center" id="mainPatientNavbar">
             <ul class="navbar-nav d-flex flex-row gap-2">
                 <li class="nav-item">
                     <a class="btn btn-outline-success" href="#">Twoje wizyty</a>
@@ -27,28 +27,50 @@
     </div>
 </nav>
 
-<nav th:fragment="adminNav" class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+<nav th:fragment="adminNav" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar"
-                aria-controls="adminNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse justify-content-center" id="adminNavbar">
+        <div class="collapse navbar-collapse justify-content-center" id="mainAdminNavbar">
             <ul class="navbar-nav d-flex flex-row gap-2">
-                <li class="nav-item">
-                    <a class="btn btn-outline-primary" th:href="@{/admin-dashboard}">Panel Administratora</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-primary" href="#">Zarządzanie Użytkownikami</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-primary" href="#">Ustawienia Systemu</a>
+<!--                <li class="nav-item">-->
+<!--                    <a class="btn btn-outline-success" th:href="@{/admin-dashboard}">Panel administratora</a>-->
+<!--                </li>-->
+                <li>
+                    <form action="#" th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-danger">Wyloguj</button>
+                    </form>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+
+<!--<nav th:fragment="adminNav" class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">-->
+<!--    <div class="container-fluid">-->
+<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbar"-->
+<!--                aria-controls="adminNavbar" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--            <span class="navbar-toggler-icon"></span>-->
+<!--        </button>-->
+
+<!--        <div class="collapse navbar-collapse justify-content-center" id="adminNavbar">-->
+<!--            <ul class="navbar-nav d-flex flex-row gap-2">-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="btn btn-outline-primary" th:href="@{/admin-dashboard}">Panel Administratora</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="btn btn-outline-primary" href="#">Zarządzanie Użytkownikami</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="btn btn-outline-primary" href="#">Ustawienia Systemu</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</nav>-->
 
 <nav th:fragment="dietitianNav" class="navbar navbar-expand-lg navbar-light bg-info shadow-sm">
     <div class="container-fluid">
@@ -57,7 +79,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse justify-content-center" id="dietitianNavbar">
+        <div class="collapse navbar-collapse justify-content-center" id="mainDietitianNavbar">
             <ul class="navbar-nav d-flex flex-row gap-2">
                 <li class="nav-item">
                     <a class="btn btn-outline-dark" th:href="@{/dietitian-dashboard}">Panel Dietetyka</a>
@@ -70,6 +92,11 @@
                 </li>
                 <li class="nav-item">
                     <a class="btn btn-outline-dark" href="#">Harmonogram Wizyt</a>
+                </li>
+                <li>
+                    <form action="#" th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-danger">Wyloguj</button>
+                    </form>
                 </li>
             </ul>
         </div>
