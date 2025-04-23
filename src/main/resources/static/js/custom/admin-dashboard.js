@@ -72,6 +72,9 @@ const PatientsTable = (() => {
             const userNameSelections = getSelectedPatients();
             const csrfToken = $('meta[name="_csrf"]').attr('content');
             const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+            $promotePatientsButton.prop('disabled', true);
+            $dietitiansTable.bootstrapTable('showLoading');
+            $patientsTable.bootstrapTable('showLoading');
             $.ajax({
                 type: 'POST',
                 url: '/api/accounts/promoteAccountsToDietitians',
@@ -87,7 +90,8 @@ const PatientsTable = (() => {
                     console.error('❌ Błąd:', error);
                 },
                 complete: function () {
-                    $promotePatientsButton.prop('disabled', true);
+                    $dietitiansTable.bootstrapTable('hideLoading');
+                    $patientsTable.bootstrapTable('hideLoading');
                     $patientsTable.bootstrapTable('uncheckAll');
                     $patientsTable.bootstrapTable('refresh');
                     $dietitiansTable.bootstrapTable('refresh');
@@ -99,6 +103,9 @@ const PatientsTable = (() => {
             const userNameSelections = getSelectedDietitians();
             const csrfToken = $('meta[name="_csrf"]').attr('content');
             const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+            $demoteDietitiansButton.prop('disabled', true);
+            $dietitiansTable.bootstrapTable('showLoading');
+            $patientsTable.bootstrapTable('showLoading');
             $.ajax({
                 type: 'POST',
                 url: '/api/accounts/demoteAccountsToPatients',
@@ -114,7 +121,8 @@ const PatientsTable = (() => {
                     console.error('❌ Błąd:', error);
                 },
                 complete: function () {
-                    $demoteDietitiansButton.prop('disabled', true);
+                    $dietitiansTable.bootstrapTable('hideLoading');
+                    $patientsTable.bootstrapTable('hideLoading');
                     $dietitiansTable.bootstrapTable('uncheckAll');
                     $patientsTable.bootstrapTable('refresh');
                     $dietitiansTable.bootstrapTable('refresh');
