@@ -53,15 +53,15 @@ public interface AccountService extends UserDetailsService {
      * Promuje użytkownika z rolą Pacjent do roli Dietetyk.
      * Usuwa rolę Pacjent i dodaje rolę Dietetyk.
      *
-     * @param userName nazwa użytkownika do promowania
+     * @param userNames nazwy użytkowników do promowania
      */
-    void promotePatientToDietitian(String userName);
+    void promotePatientsToDietitians(List<String> userNames);
 
     /**
-     * Degraduje użytkownika z rolą Dietetyk do roli Pacjent.
+     * Degraduje użytkowników z rolą Dietetyk do roli Pacjent.
      * Usuwa rolę Dietetyk i dodaje rolę Pacjent.
      *
-     * @param userName nazwa użytkownika do degradacji
+     * @param userNames nazwy użytkowników do degradacji
      */
-    void demoteDietitianToPatient(String userName);
+    void demoteDietitiansToPatients(List<String> userNames);
 }

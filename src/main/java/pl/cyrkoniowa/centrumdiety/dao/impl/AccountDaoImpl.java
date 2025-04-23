@@ -69,7 +69,7 @@ public class AccountDaoImpl implements AccountDao {
     public List<Account> findAllPatients(int pageNumber, int pageSize) {
         // Pobranie wszystkich użytkowników z rolą PACJENT
         TypedQuery<Account> query = entityManager.createQuery(
-                "select a from Account a join a.roles r where r.name=:roleName and a.enabled=true", Account.class);
+                "select a from Account a join a.roles r where r.name=:roleName and a.enabled=true order by a.id desc", Account.class);
         query.setParameter("roleName", Roles.PATIENT.getRoleNameWithPrefix());
         query.setFirstResult(pageNumber * pageSize);
         query.setMaxResults(pageSize);
@@ -87,7 +87,7 @@ public class AccountDaoImpl implements AccountDao {
     @Override
     public List<Account> findPatientsByText(String textToSearch, int pageNumber, int pageSize) {
         TypedQuery<Account> query = entityManager.createQuery(
-                "select a from Account a join a.roles r where (LOWER(a.firstName) like :textToSearch OR LOWER(a.lastName) like :textToSearch OR LOWER(a.email) like :textToSearch) AND r.name=:roleName and a.enabled=true", Account.class);
+                "select a from Account a join a.roles r where (LOWER(a.userName) like :textToSearch OR LOWER(a.firstName) like :textToSearch OR LOWER(a.lastName) like :textToSearch OR LOWER(a.email) like :textToSearch) AND r.name=:roleName and a.enabled=true order by a.id desc", Account.class);
         query.setParameter("roleName", Roles.PATIENT.getRoleNameWithPrefix());
         query.setParameter("textToSearch", "%"+textToSearch.toLowerCase()+"%");
 
@@ -99,7 +99,7 @@ public class AccountDaoImpl implements AccountDao {
     @Override
     public long countPatientsByText(String textToSearch) {
         TypedQuery<Long> countQuery = entityManager.createQuery(
-                "select count(a) from Account a join a.roles r where (LOWER(a.firstName) like :textToSearch OR LOWER(a.lastName) like :textToSearch OR LOWER(a.email) like :textToSearch) AND r.name=:roleName and a.enabled=true",Long.class);
+                "select count(a) from Account a join a.roles r where (LOWER(a.userName) like :textToSearch OR LOWER(a.firstName) like :textToSearch OR LOWER(a.lastName) like :textToSearch OR LOWER(a.email) like :textToSearch) AND r.name=:roleName and a.enabled=true",Long.class);
         countQuery.setParameter("roleName", Roles.PATIENT.getRoleNameWithPrefix());
         countQuery.setParameter("textToSearch", "%"+textToSearch.toLowerCase()+"%");
         return countQuery.getSingleResult();
@@ -115,7 +115,7 @@ public class AccountDaoImpl implements AccountDao {
     public List<Account> findAllDietitians(int pageNumber, int pageSize) {
         // Pobranie wszystkich użytkowników z rolą DIETETYK
         TypedQuery<Account> query = entityManager.createQuery(
-                "select a from Account a join a.roles r where r.name=:roleName and a.enabled=true", Account.class);
+                "select a from Account a join a.roles r where r.name=:roleName and a.enabled=true order by a.id desc", Account.class);
         query.setParameter("roleName", Roles.DIETITIAN.getRoleNameWithPrefix());
         query.setFirstResult(pageNumber * pageSize);
         query.setMaxResults(pageSize);
@@ -139,7 +139,7 @@ public class AccountDaoImpl implements AccountDao {
     @Override
     public List<Account> findDietitiansByText(String textToSearch, int pageNumber, int pageSize) {
         TypedQuery<Account> query = entityManager.createQuery(
-                "select a from Account a join a.roles r where (LOWER(a.firstName) like :textToSearch OR LOWER(a.lastName) like :textToSearch OR LOWER(a.email) like :textToSearch) AND r.name=:roleName and a.enabled=true", Account.class);
+                "select a from Account a join a.roles r where (LOWER(a.userName) like :textToSearch OR LOWER(a.firstName) like :textToSearch OR LOWER(a.lastName) like :textToSearch OR LOWER(a.email) like :textToSearch) AND r.name=:roleName and a.enabled=true order by a.id desc", Account.class);
         query.setParameter("roleName", Roles.DIETITIAN.getRoleNameWithPrefix());
         query.setParameter("textToSearch", "%"+textToSearch.toLowerCase()+"%");
 
@@ -157,7 +157,7 @@ public class AccountDaoImpl implements AccountDao {
     @Override
     public long countDietitiansByText(String textToSearch) {
         TypedQuery<Long> countQuery = entityManager.createQuery(
-                "select count(a) from Account a join a.roles r where (LOWER(a.firstName) like :textToSearch OR LOWER(a.lastName) like :textToSearch OR LOWER(a.email) like :textToSearch) AND r.name=:roleName and a.enabled=true",Long.class);
+                "select count(a) from Account a join a.roles r where (LOWER(a.userName) like :textToSearch OR LOWER(a.firstName) like :textToSearch OR LOWER(a.lastName) like :textToSearch OR LOWER(a.email) like :textToSearch) AND r.name=:roleName and a.enabled=true",Long.class);
         countQuery.setParameter("roleName", Roles.DIETITIAN.getRoleNameWithPrefix());
         countQuery.setParameter("textToSearch", "%"+textToSearch.toLowerCase()+"%");
         return countQuery.getSingleResult();

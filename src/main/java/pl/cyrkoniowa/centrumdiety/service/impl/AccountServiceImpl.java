@@ -182,80 +182,84 @@ public class AccountServiceImpl implements AccountService {
 
     /**
      * {@inheritDoc}
-     * Implementacja metody promującej użytkownika z rolą Pacjent do roli Dietetyk.
-     * Usuwa rolę Pacjent i dodaje rolę Dietetyk dla wskazanego użytkownika.
+     * Implementacja metody promującej użytkowników z rolą Pacjent do roli Dietetyk.
+     * Usuwa rolę Pacjent i dodaje rolę Dietetyk dla wskazanych użytkowników.
      *
-     * @param userName nazwa użytkownika do promowania
+     * @param userNames nazwy użytkowników do promowania
      */
     @Override
     @Transactional
-    public void promotePatientToDietitian(String userName) {
-        Account account = accountDao.findByUserName(userName);
-        if (account != null) {
-            // Sprawdzenie czy użytkownik na rolę Pacjent
-            boolean isPatient = account.getRoles().stream()
-                    .anyMatch(role -> role.getName().equals(Roles.PATIENT.getRoleNameWithPrefix()));
+    public void promotePatientsToDietitians(List<String> userNames) {
+        userNames.forEach(userName -> {
+            Account account = accountDao.findByUserName(userName);
+            if (account != null) {
+                // Sprawdzenie czy użytkownik na rolę Pacjent
+                boolean isPatient = account.getRoles().stream()
+                        .anyMatch(role -> role.getName().equals(Roles.PATIENT.getRoleNameWithPrefix()));
 
-            if (isPatient) {
-                // Pobranie roli pacjent
-                Role dietitianRole = roleDao.findRoleByName(Roles.DIETITIAN.getRoleNameWithPrefix());
-                Role patientRole = roleDao.findRoleByName(Roles.PATIENT.getRoleNameWithPrefix());
+                if (isPatient) {
+                    // Pobranie roli pacjent
+                    Role dietitianRole = roleDao.findRoleByName(Roles.DIETITIAN.getRoleNameWithPrefix());
+                    Role patientRole = roleDao.findRoleByName(Roles.PATIENT.getRoleNameWithPrefix());
 
-                if (dietitianRole != null && patientRole != null) {
-                    // Lista ról bez roli pacjent
-                    List<Role> updatedRoles = account.getRoles().stream()
-                            .filter(role -> !role.getName().equals(Roles.PATIENT.getRoleNameWithPrefix()))
-                            .collect(Collectors.toList());
+                    if (dietitianRole != null && patientRole != null) {
+                        // Lista ról bez roli pacjent
+                        List<Role> updatedRoles = account.getRoles().stream()
+                                .filter(role -> !role.getName().equals(Roles.PATIENT.getRoleNameWithPrefix()))
+                                .collect(Collectors.toList());
 
-                    // Dodanie roli dietetyk
-                    updatedRoles.add(dietitianRole);
+                        // Dodanie roli dietetyk
+                        updatedRoles.add(dietitianRole);
 
-                    // Aktualizacja ról dla użytkownika
-                    account.setRoles(updatedRoles);
+                        // Aktualizacja ról dla użytkownika
+                        account.setRoles(updatedRoles);
 
-                    // Zapisanie użytkownika
-                    accountDao.save(account);
+                        // Zapisanie użytkownika
+                        accountDao.save(account);
+                    }
                 }
             }
-        }
+        });
     }
 
     /**
      * {@inheritDoc}
-     * Implementacja metody degradującej użytkownika z rolą Dietetyk do roli Pacjent.
+     * Implementacja metody degradującej użytkowników z rolą Dietetyk do roli Pacjent.
      * Usuwa rolę Dietetyk i dodaje rolę Pacjent dla wskazanego użytkownika.
      *
-     * @param userName nazwa użytkownika do degradacji
+     * @param userNames nazwy użytkowników do degradacji
      */
     @Override
     @Transactional
-    public void demoteDietitianToPatient(String userName) {
-        Account account = accountDao.findByUserName(userName);
-        if (account != null) {
-            // Check if the user has the DIETITIAN role
-            boolean isDietitian = account.getRoles().stream()
-                    .anyMatch(role -> role.getName().equals(Roles.DIETITIAN.getRoleNameWithPrefix()));
+    public void demoteDietitiansToPatients(List<String> userNames) {
+        userNames.forEach(userName -> {
+            Account account = accountDao.findByUserName(userName);
+            if (account != null) {
+                // Check if the user has the DIETITIAN role
+                boolean isDietitian = account.getRoles().stream()
+                        .anyMatch(role -> role.getName().equals(Roles.DIETITIAN.getRoleNameWithPrefix()));
 
-            if (isDietitian) {
-                // Get the PATIENT role
-                Role patientRole = roleDao.findRoleByName(Roles.PATIENT.getRoleNameWithPrefix());
+                if (isDietitian) {
+                    // Get the PATIENT role
+                    Role patientRole = roleDao.findRoleByName(Roles.PATIENT.getRoleNameWithPrefix());
 
-                if (patientRole != null) {
-                    // Create a new collection with all roles except DIETITIAN
-                    List<Role> updatedRoles = account.getRoles().stream()
-                            .filter(role -> !role.getName().equals(Roles.DIETITIAN.getRoleNameWithPrefix()))
-                            .collect(Collectors.toList());
+                    if (patientRole != null) {
+                        // Create a new collection with all roles except DIETITIAN
+                        List<Role> updatedRoles = account.getRoles().stream()
+                                .filter(role -> !role.getName().equals(Roles.DIETITIAN.getRoleNameWithPrefix()))
+                                .collect(Collectors.toList());
 
-                    // Add the PATIENT role
-                    updatedRoles.add(patientRole);
+                        // Add the PATIENT role
+                        updatedRoles.add(patientRole);
 
-                    // Update the account with the new roles
-                    account.setRoles(updatedRoles);
+                        // Update the account with the new roles
+                        account.setRoles(updatedRoles);
 
-                    // Save the updated account
-                    accountDao.save(account);
+                        // Save the updated account
+                        accountDao.save(account);
+                    }
                 }
             }
-        }
+        });
     }
 }

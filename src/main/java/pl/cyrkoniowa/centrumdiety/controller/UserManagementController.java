@@ -32,7 +32,7 @@ public class UserManagementController {
     @PostMapping("/{userName}/promote")
     public String promoteUserToDietitian(@PathVariable String userName, RedirectAttributes redirectAttributes) {
         try {
-            accountService.promotePatientToDietitian(userName);
+            //accountService.promotePatientsToDietitians(userName);
             redirectAttributes.addFlashAttribute("successMessage", "Użytkownik " + userName + " został pomyślnie promowany na dietetyka.");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Nie udało się promować użytkownika: " + e.getMessage());
@@ -50,7 +50,7 @@ public class UserManagementController {
     @PostMapping("/{userName}/demote")
     public String demoteUserToPatient(@PathVariable String userName, RedirectAttributes redirectAttributes) {
         try {
-            accountService.demoteDietitianToPatient(userName);
+           // accountService.demoteDietitianToPatient(userName);
             redirectAttributes.addFlashAttribute("successMessage", "Użytkownik " + userName + " został pomyślnie zdegradowany do pacjenta.");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Nie udało się zdegradować użytkownika: " + e.getMessage());
