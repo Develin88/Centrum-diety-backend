@@ -1,26 +1,22 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="pl">
 <body>
-<nav th:fragment="patientNav" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+<nav th:fragment="userNav" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
-                aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainUserNavbar"
+                aria-controls="dietitianNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse justify-content-center" id="mainPatientNavbar">
+        <div class="collapse navbar-collapse justify-content-center" id="mainUserNavbar">
             <ul class="navbar-nav d-flex flex-row gap-2">
                 <li class="nav-item">
-                    <a class="btn btn-outline-success" href="#">Twoje wizyty</a>
+                    <a class="btn btn-outline-success" th:href="@{/dashboard}">Panel główny</a>
                 </li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-success" href="#">Twój plan dietetyczny</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-success" href="#">Twoja grupa wsparcia</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-success" href="#">Twój plan treningowy</a>
+                <li>
+                    <form action="#" th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-danger">Wyloguj</button>
+                    </form>
                 </li>
             </ul>
         </div>
@@ -29,7 +25,7 @@
 
 <nav th:fragment="adminNav" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainAdminNavbar"
                 aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -49,23 +45,5 @@
     </div>
 </nav>
 
-<nav th:fragment="dietitianNav" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dietitianNavbar"
-                aria-controls="dietitianNavbar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse justify-content-center" id="mainDietitianNavbar">
-            <ul class="navbar-nav d-flex flex-row gap-2">
-                <li>
-                    <form action="#" th:action="@{/logout}" method="post">
-                        <button type="submit" class="btn btn-danger">Wyloguj</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
 </body>
 </html>

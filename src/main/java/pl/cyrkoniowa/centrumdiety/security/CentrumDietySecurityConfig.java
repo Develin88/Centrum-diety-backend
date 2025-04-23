@@ -93,7 +93,7 @@ public class CentrumDietySecurityConfig {
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/register/**").permitAll()
                         .requestMatchers("/dashboard").hasAnyRole(Roles.DIETITIAN.getRoleName(),Roles.PATIENT.getRoleName(),Roles.ADMIN.getRoleName())
-                        .requestMatchers("/dietetyk-dashboard","/add-recipe","/add-ingredient").hasRole(Roles.DIETITIAN.getRoleName())
+                        .requestMatchers("/dietitian-dashboard","/add-recipe","/add-ingredient").hasRole(Roles.DIETITIAN.getRoleName())
                         .requestMatchers("/patient-dashboard").hasRole(Roles.PATIENT.getRoleName())
                         .requestMatchers("/admin-dashboard","/api/accounts/**","/admin/**").hasRole(Roles.ADMIN.getRoleName())
                         .anyRequest()
