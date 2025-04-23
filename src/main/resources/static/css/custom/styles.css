@@ -10,3 +10,40 @@ nav {
 body {
     font-family: 'Poppins', sans-serif;
 }
+
+.dashboard-tile {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: bold;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.dashboard-link {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+.dashboard-tile i {
+    font-size: 2.5rem;
+}
+
+.dashboard-tile:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.bg-recipe { background: #00c49a; }
+.bg-ingredient { background: #00bcd4; }
+.bg-list-recipe { background: #ffa000; }
+.bg-list-ingredient { background: #7e57c2; }

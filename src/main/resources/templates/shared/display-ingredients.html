@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head th:replace="~{staticElements/header :: commonHead('Lista składników')}">
+  <title>Centrum Diety</title>
+  <th:block th:fragment="extraHead"/>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="~{staticElements/header :: bodyHeader}"></header>
+<nav th:replace="~{staticElements/nav :: dietitianNav}"></nav>
+<main class="container mt-5 mb-3">
+  Tu będzie wyświetlona lista składników.
+</main>
+<footer th:replace="~{staticElements/footer :: footer}"></footer>
+</body>
+</html>

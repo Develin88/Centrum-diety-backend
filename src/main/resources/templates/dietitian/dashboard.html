@@ -9,22 +9,49 @@
 <nav th:replace="~{staticElements/nav :: dietitianNav}"></nav>
 <main class="container mt-5 mb-3">
     <div class="row">
-        <div class="col-12">
-            <h2 class="mb-4">Panel Dietetyka</h2>
-
+        <div class="col-6 offset-3">
             <div class="card mb-4">
                 <div class="card-header">
-                    <h3 class="card-title">Witaj w panelu dietetyka!</h3>
+                    <h3 class="card-title text-center">Witaj w panelu dietetyka!</h3>
                 </div>
                 <div class="card-body">
-                    <p>Tutaj będziesz mógł zarządzać swoimi pacjentami, tworzyć plany dietetyczne i harmonogramy wizyt.</p>
+                    <div class="container py-5">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <a th:href="@{/add-recipe}" class="dashboard-link text-decoration-none">
+                                    <div class="dashboard-tile bg-recipe">
+                                        <i class="fas fa-utensils"></i>
+                                        Dodaj przepis
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <a th:href="@{/add-ingredient}" class="dashboard-link text-decoration-none">
+                                    <div class="dashboard-tile bg-ingredient">
+                                        <i class="fas fa-cart-plus"></i>
+                                        Dodaj składnik
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <a th:href="@{/recipes-list}" class="dashboard-link text-decoration-none">
+                                    <div class="dashboard-tile bg-list-recipe">
+                                        <i class="fas fa-list-alt"></i>
+                                        Lista przepisów
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <a th:href="@{/ingredients-list}" class="dashboard-link text-decoration-none">
+                                    <div class="dashboard-tile bg-list-ingredient">
+                                        <i class="fas fa-cart-shopping"></i>
+                                        Lista składników
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="mt-3">
-                <form action="#" th:action="@{/logout}" method="post">
-                    <button type="submit" class="btn btn-danger">Wyloguj</button>
-                </form>
             </div>
         </div>
     </div>

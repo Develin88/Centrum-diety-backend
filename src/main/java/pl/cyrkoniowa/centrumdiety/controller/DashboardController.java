@@ -111,21 +111,10 @@ public class DashboardController {
     /**
      * Wyświetla panel administratora z listami pacjentów i dietetyków.
      *
-     * @param model model Spring MVC do przekazywania danych do widoku
      * @return widok panelu administratora
      */
     @GetMapping("/admin-dashboard")
-    public String showAdminDashboard(Model model) {
-//        // Pobierz listę wszystkich pacjentów
-//        List<Account> patients = accountService.findAllPatients();
-//
-//        // Pobierz listę wszystkich dietetyków
-//        List<Account> dietitians = accountService.findAllDietitians();
-//
-//        // Dodaj listy do modelu
-//        model.addAttribute("patients", patients);
-//        model.addAttribute("dietitians", dietitians);
-
+    public String showAdminDashboard() {
         return "admin/dashboard";
     }
 }

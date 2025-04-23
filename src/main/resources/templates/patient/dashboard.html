@@ -1,16 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pl">
-<head th:replace="~{staticElements/header :: commonHead('Dashboard')}">
+<head th:replace="~{staticElements/header :: commonHead('Dashboard Pacjenta')}">
     <title>Centrum Diety</title>
     <th:block th:fragment="extraHead"/>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="~{staticElements/header :: bodyHeader}"></header>
-<nav th:replace="~{staticElements/nav :: patientNav}"></nav>
-<main class="container mt-5 mb-3 d-flex justify-content-center">
-    <form action="#" th:action="@{/logout}" method="post">
-        <input type="submit" value="Logout" />
-    </form>
+<nav th:replace="~{staticElements/nav :: dietitianNav}"></nav>
+<main class="container mt-5 mb-3">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Witaj w panelu pacjenta!</h3>
+                </div>
+                <div class="card-body">
+                    <div class="container py-5">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <a href="#lista-przepisow" class="dashboard-link text-decoration-none">
+                                    <div class="dashboard-tile bg-list-recipe">
+                                        <i class="fas fa-list-alt"></i>
+                                        Lista przepisów
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="#lista-skladnikow" class="dashboard-link text-decoration-none">
+                                    <div class="dashboard-tile bg-list-ingredient">
+                                        <i class="fas fa-cart-shopping"></i>
+                                        Lista składników
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 <footer th:replace="~{staticElements/footer :: footer}"></footer>
 </body>
