@@ -3,9 +3,9 @@
 <head th:replace="~{staticElements/header :: commonHead('Dashboard Administratora')}">
     <title>Centrum Diety</title>
     <th:block th:fragment="extraHead">
-        <script th:src="@{/js/bootstrap-table.min.js}" defer></script>
-        <script th:src="@{/js/bootstrap-table-pl-PL.min.js}" defer></script>
-        <script th:src="@{/js/custom/admin-dashboard.js}" defer></script>
+        <script th:src="@{/js/external/bootstrap-table.min.js}" defer></script>
+        <script th:src="@{/js/external/bootstrap-table-pl-PL.min.js}" defer></script>
+        <script th:src="@{/js/admin-dashboard.js}" defer></script>
     </th:block>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -35,7 +35,7 @@
                                     class="btn btn-primary"
                                     disabled
                             >
-                                <i class="fa fa-trash"></i> Nadaj rolę dietetyka
+                                <i class="fa fa-hand-point-up"></i> Nadaj rolę dietetyka
                             </button>
                         </div>
                         <table id="patients-table"
@@ -73,7 +73,7 @@
                                     class="btn btn-primary"
                                     disabled
                             >
-                                <i class="fa fa-trash"></i> Usuń rolę dietetyka
+                                <i class="fa fa-hand-point-down"></i> Usuń rolę dietetyka
                             </button>
                         </div>
                         <table id="dietitians-table"
