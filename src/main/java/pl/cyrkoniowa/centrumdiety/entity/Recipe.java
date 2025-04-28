@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @Table(name="recipe")
 @Getter
 @Setter
-public class Recipe {
+public class    Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,6 +26,24 @@ public class Recipe {
 
     @Column(name="preparation_description")
     private String preparationDescription;
+
+    @Column(name="calories_amount")
+    private int caloriesAmount;
+
+    @Column(name="glycemic_load")
+    private String glycemicLoad;
+
+    @Column(name="protein_amount")
+    private BigDecimal proteinAmount;
+
+    @Column(name="fats_amount")
+    private BigDecimal fatsAmount;
+
+    @Column(name="carbs_amount")
+    private BigDecimal carbsAmount;
+
+    @Column(name="preparation_time")
+    private int preparationTime;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<DietElement> dietElements = new ArrayList<>();

@@ -2,21 +2,20 @@ package pl.cyrkoniowa.centrumdiety.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pl.cyrkoniowa.centrumdiety.entity.Account;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountDTO {
+public class AccountDto {
     private Long id;
     private String userName;
     private String firstName;
     private String lastName;
     private String email;
 
-    public AccountDTO(Account account) {
+    public AccountDto(Account account) {
         this.id = account.getId();
         this.userName = account.getUserName();
         this.firstName = account.getFirstName();

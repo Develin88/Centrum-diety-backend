@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.cyrkoniowa.centrumdiety.dao.RoleDao;
 import pl.cyrkoniowa.centrumdiety.dao.AccountDao;
-import pl.cyrkoniowa.centrumdiety.dto.AccountDTO;
+import pl.cyrkoniowa.centrumdiety.dto.AccountDto;
 import pl.cyrkoniowa.centrumdiety.entity.Role;
 import pl.cyrkoniowa.centrumdiety.entity.Account;
 import pl.cyrkoniowa.centrumdiety.security.Roles;
@@ -127,20 +127,20 @@ public class AccountServiceImpl implements AccountService {
      * @return lista obiektów Account z rolą Pacjent
      */
     @Override
-    public Page<AccountDTO> findPatientsByText(String textToSearch, int pageNumber, int pageSize) {
-        List<AccountDTO> accountDtos;
+    public Page<AccountDto> findPatientsByText(String textToSearch, int pageNumber, int pageSize) {
+        List<AccountDto> accountDtos;
         long totalRecords;
 
         if(textToSearch==null || textToSearch.isEmpty()){
             List<Account> users = accountDao.findAllPatients(pageNumber, pageSize);
             accountDtos = users.stream()
-                    .map(AccountDTO::new)
+                    .map(AccountDto::new)
                     .toList();
             totalRecords = accountDao.countAllPatients();
         }else{
             List<Account> users = accountDao.findPatientsByText(textToSearch, pageNumber, pageSize);
             accountDtos = users.stream()
-                    .map(AccountDTO::new)
+                    .map(AccountDto::new)
                     .toList();
             totalRecords = accountDao.countPatientsByText(textToSearch);
         }
@@ -158,20 +158,20 @@ public class AccountServiceImpl implements AccountService {
      * @return lista obiektów Account z rolą Dietetyk
      */
     @Override
-    public Page<AccountDTO> findDietitiansByText(String textToSearch, int pageNumber, int pageSize) {
-        List<AccountDTO> accountDtos;
+    public Page<AccountDto> findDietitiansByText(String textToSearch, int pageNumber, int pageSize) {
+        List<AccountDto> accountDtos;
         long totalRecords;
 
         if(textToSearch==null || textToSearch.isEmpty()){
             List<Account> accounts = accountDao.findAllDietitians(pageNumber, pageSize);
             accountDtos = accounts.stream()
-                    .map(AccountDTO::new)
+                    .map(AccountDto::new)
                     .toList();
             totalRecords = accountDao.countAllDietitians();
         }else{
             List<Account> accounts = accountDao.findDietitiansByText(textToSearch, pageNumber, pageSize);
             accountDtos = accounts.stream()
-                    .map(AccountDTO::new)
+                    .map(AccountDto::new)
                     .toList();
             totalRecords = accountDao.countDietitiansByText(textToSearch);
         }

@@ -3,7 +3,7 @@ package pl.cyrkoniowa.centrumdiety.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import pl.cyrkoniowa.centrumdiety.dto.AccountDTO;
+import pl.cyrkoniowa.centrumdiety.dto.AccountDto;
 import pl.cyrkoniowa.centrumdiety.entity.Account;
 import pl.cyrkoniowa.centrumdiety.dto.UserRegistrationDto;
 
@@ -37,7 +37,7 @@ public interface AccountService extends UserDetailsService {
      * @param pageSize rozmiar strony
      * @return lista obiektów Account z rolą Pacjent
      */
-    Page<AccountDTO> findPatientsByText(String textToSearch, int pageNumber, int pageSize);
+    Page<AccountDto> findPatientsByText(String textToSearch, int pageNumber, int pageSize);
 
     /**
      * Pobiera listę kont użytkowników z rolą Dietetyk spełniających filtr wraz ze stronicowaniem.
@@ -47,7 +47,7 @@ public interface AccountService extends UserDetailsService {
      * @param pageSize rozmiar strony
      * @return lista obiektów Account z rolą Dietetyk
      */
-    Page<AccountDTO> findDietitiansByText(String textToSearch, int pageNumber, int pageSize);
+    Page<AccountDto> findDietitiansByText(String textToSearch, int pageNumber, int pageSize);
 
     /**
      * Promuje użytkownika z rolą Pacjent do roli Dietetyk.
