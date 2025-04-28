@@ -6,9 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.cyrkoniowa.centrumdiety.dto.AccountDto;
 import pl.cyrkoniowa.centrumdiety.dto.RecipeDto;
-import pl.cyrkoniowa.centrumdiety.service.AccountService;
 import pl.cyrkoniowa.centrumdiety.service.RecipeService;
 
 import java.util.logging.Logger;

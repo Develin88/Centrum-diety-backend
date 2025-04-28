@@ -48,7 +48,7 @@ body {
 .bg-list-recipe { background: #ffa000; }
 .bg-list-ingredient { background: #7e57c2; }
 
-.recipes-table-header .th-inner{
+.recipes-table-header .th-inner, .ingredients-table-header .th-inner{
     text-align: center;
 }
 

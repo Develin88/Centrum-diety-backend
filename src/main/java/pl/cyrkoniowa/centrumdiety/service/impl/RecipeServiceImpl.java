@@ -4,14 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.cyrkoniowa.centrumdiety.dao.AccountDao;
 import pl.cyrkoniowa.centrumdiety.dao.RecipeDao;
-import pl.cyrkoniowa.centrumdiety.dao.RoleDao;
-import pl.cyrkoniowa.centrumdiety.dto.AccountDto;
 import pl.cyrkoniowa.centrumdiety.dto.RecipeDto;
-import pl.cyrkoniowa.centrumdiety.entity.Account;
 import pl.cyrkoniowa.centrumdiety.entity.Recipe;
 import pl.cyrkoniowa.centrumdiety.service.RecipeService;
 
@@ -38,7 +33,7 @@ public class RecipeServiceImpl implements RecipeService {
      * @param pageSize rozmiar strony
      * @param sortBy nazwa kolumny do sortowania
      * @param order kierunek sortowania (asc/desc)
-     * @return lista obiektów Account z rolą Pacjent
+     * @return lista obiektów RecipeDto
      */
     @Override
     public Page<RecipeDto> findRecipesByText(String textToSearch, int pageNumber, int pageSize, String sortBy, String order) {

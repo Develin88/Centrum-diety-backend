@@ -1,14 +1,59 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="pl">
 <head th:replace="~{staticElements/header :: commonHead('Lista składników')}">
   <title>Centrum Diety</title>
-  <th:block th:fragment="extraHead"/>
+  <th:block th:fragment="extraHead">
+    <script th:src="@{/js/external/bootstrap-table.min.js}" defer></script>
+    <script th:src="@{/js/external/bootstrap-table-pl-PL.min.js}" defer></script>
+    <script th:src="@{/js/ingredients-list.js}" defer></script>
+  </th:block>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="~{staticElements/header :: bodyHeader}"></header>
 <nav th:replace="~{staticElements/nav :: userNav}"></nav>
-<main class="container mt-5 mb-3">
-  Tu będzie wyświetlona lista składników.
+<main class="container-fluid mt-5 mb-3">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title text-center">Lista składników</h3>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <div id="ingredients-table-toolbar">
+              <button
+                      sec:authorize="hasRole(T(pl.cyrkoniowa.centrumdiety.security.Roles).DIETITIAN.getRoleName())"
+                      id="add-ingredient-btn"
+                      class="btn btn-primary"
+              >
+                <i class="fa fa-plus"></i> Dodaj składnik
+              </button>
+            </div>
+            <table id="ingredients-table"
+                   data-toggle="table"
+                   data-locale="pl-PL"
+                   data-toolbar="#ingredients-table-toolbar"
+                   data-ajax="fetchIngredientsData"
+                   data-height="650"
+                   data-search="true"
+                   data-side-pagination="server"
+                   data-pagination="true">
+              <thead class="table-success ingredients-table-header">
+              <tr>
+                <th scope="col" class="align-top" data-field="name">Nazwa składnika</th>
+                <th scope="col" data-field="caloriesAmount" data-sortable="true">Ilość kalorii<br/>(kcal)</th>
+                <th scope="col" data-field="proteinAmount" data-sortable="true">Ilość białka<br/>(g na 100g/100ml składnika)</th>
+                <th scope="col" data-field="fatsAmount" data-sortable="true">Ilość tłuszczów<br/>(g na 100g/100ml składnika)</th>
+                <th scope="col" data-field="carbsAmount" data-sortable="true">Ilość węglowodanów<br/>(g na 100g/100ml składnika)</th>
+                <th scope="col" class="align-top" data-field="glycemicIndex" data-sortable="true">Indeks glikemiczny</th>
+              </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
 <footer th:replace="~{staticElements/footer :: footer}"></footer>
 </body>

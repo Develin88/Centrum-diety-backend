@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="pl">
 <head th:replace="~{staticElements/header :: commonHead('Lista przepisów')}">
     <title>Centrum Diety</title>
     <th:block th:fragment="extraHead">
@@ -22,6 +22,7 @@
                     <div class="table-responsive">
                         <div id="recipes-table-toolbar">
                             <button
+                                    sec:authorize="hasRole(T(pl.cyrkoniowa.centrumdiety.security.Roles).DIETITIAN.getRoleName())"
                                     id="add-recipe-btn"
                                     class="btn btn-primary"
                             >
