@@ -21,14 +21,16 @@
         <div class="card-body">
           <div class="table-responsive">
             <div id="ingredients-table-toolbar">
-              <button
+              <a
                       sec:authorize="hasRole(T(pl.cyrkoniowa.centrumdiety.security.Roles).DIETITIAN.getRoleName())"
                       id="add-ingredient-btn"
+                      th:href="@{/add-ingredient}"
                       class="btn btn-primary"
               >
                 <i class="fa fa-plus"></i> Dodaj składnik
-              </button>
+              </a>
             </div>
+
             <table id="ingredients-table"
                    data-toggle="table"
                    data-locale="pl-PL"

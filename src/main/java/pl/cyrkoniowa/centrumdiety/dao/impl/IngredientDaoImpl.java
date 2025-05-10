@@ -3,7 +3,9 @@ package pl.cyrkoniowa.centrumdiety.dao.impl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import pl.cyrkoniowa.centrumdiety.dao.IngredientDao;
+import pl.cyrkoniowa.centrumdiety.entity.Account;
 import pl.cyrkoniowa.centrumdiety.entity.Ingredient;
 
 import java.util.List;
@@ -101,5 +103,37 @@ public class IngredientDaoImpl implements IngredientDao {
                 "select count(i) from Ingredient i  where LOWER(i.name) like :textToSearch",Long.class);
         countQuery.setParameter("textToSearch", "%"+textToSearch.toLowerCase()+"%");
         return countQuery.getSingleResult();
+    }
+
+    /**
+     * {@inheritDoc}
+     * Implementacja metody znajdującej składnik w bazie danych na podstawie nazwy.
+     *
+     * @return obiekt składnika Ingredient
+     */
+    @Override
+    public Ingredient findIngredientByName(String name) {
+        TypedQuery<Ingredient> theQuery = entityManager.createQuery("from Ingredient where name=:name", Ingredient.class);
+        theQuery.setParameter("name", name);
+        Ingredient ingredient = null;
+        try {
+            ingredient = theQuery.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+        return ingredient;
+    }
+
+    /**
+     * {@inheritDoc}
+     * Implementacja metody zapisującej składnik w bazie danych.
+     * Używa operacji merge do aktualizacji istniejącego lub utworzenia nowego składnika.
+     *
+     * @param ingredient obiekt składnika do zapisania
+     */
+    @Override
+    @Transactional
+    public void save(Ingredient ingredient) {
+        entityManager.merge(ingredient);
     }
 }

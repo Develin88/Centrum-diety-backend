@@ -55,4 +55,39 @@ public class IngredientServiceImpl implements IngredientService {
         }
         return new PageImpl<>(ingredientDtos, PageRequest.of(pageNumber, pageSize), totalRecords);
     }
+
+    /**
+     * {@inheritDoc}
+     * Implementacja metody znajdującej składnik na podstawie nazwy.
+     * @param name nazwa składnika do wyszukania
+     */
+    @Override
+    public IngredientDto findIngredientByName(String name) {
+        Ingredient ingredient = ingredientDao.findIngredientByName(name);
+        if (ingredient == null) {
+            return null;
+        }
+        return new IngredientDto(ingredient);
+    }
+
+
+    /**
+     * {@inheritDoc}
+     * Implementacja metody zapisującej składnik na podstawie danych z formularza dodawania składnika.
+     *
+     * @param ingredientDto obiekt zawierający dane składnika
+     */
+    @Override
+    public void save(IngredientDto ingredientDto) {
+        Ingredient ingredient = new Ingredient();
+
+        ingredient.setName(ingredientDto.getName());
+        ingredient.setCaloriesAmount(ingredientDto.getCaloriesAmount());
+        ingredient.setCarbsAmount(ingredientDto.getCarbsAmount());
+        ingredient.setProteinAmount(ingredientDto.getProteinAmount());
+        ingredient.setGlycemicIndex(ingredientDto.getGlycemicIndex());
+        ingredient.setFatsAmount(ingredientDto.getFatsAmount());
+
+        ingredientDao.save(ingredient);
+    }
 }

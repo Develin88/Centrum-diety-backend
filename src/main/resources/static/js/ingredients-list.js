@@ -24,11 +24,11 @@ const IngredientsTable = (() => {
     };
 
     const init = () => {
-        const $addIngredientButton = $('#add-ingredient-btn');
-
-        $addIngredientButton.click(function () {
-            alert('test');
-        });
+        // const $addIngredientButton = $('#add-ingredient-btn');
+        //
+        // $addIngredientButton.click(function () {
+        //     alert('test');
+        // });
 
     };
 
