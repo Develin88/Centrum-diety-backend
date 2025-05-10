@@ -139,7 +139,10 @@
                         </div>
                         <div class="form-group">
                             <div class="controls d-flex justify-content-center controls">
-                                <button type="submit" class="btn btn-success">Dodaj składnik</button>
+                                <button  type="submit" class="btn btn-success">
+                                    <span th:if="${existingIngredient!=null && existingIngredient==true}">Edytuj składnik</span>
+                                    <span th:if="${existingIngredient==null}">Dodaj składnik</span>
+                                </button>
                             </div>
                         </div>
                     </form>

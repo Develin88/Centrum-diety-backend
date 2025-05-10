@@ -23,6 +23,12 @@ const IngredientsTable = (() => {
             });
     };
 
+    const actionsFormatter = (e, value, row) => [
+        '<a href="/edit-ingredient?name='+value.name+'" title="Edit Ingredient">',
+        '<i class="fa fa-pen"></i>',
+        '</a>  ',
+    ].join('')
+
     const init = () => {
         // const $addIngredientButton = $('#add-ingredient-btn');
         //
@@ -34,10 +40,12 @@ const IngredientsTable = (() => {
 
     return {
         init,
-        fetchIngredientsData
+        fetchIngredientsData,
+        actionsFormatter
     };
 })();
 
 
 IngredientsTable.init();
 window.fetchIngredientsData = IngredientsTable.fetchIngredientsData;
+window.actionsFormatter = IngredientsTable.actionsFormatter;

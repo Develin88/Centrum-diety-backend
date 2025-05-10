@@ -79,15 +79,23 @@ public class IngredientServiceImpl implements IngredientService {
      */
     @Override
     public void save(IngredientDto ingredientDto) {
-        Ingredient ingredient = new Ingredient();
-
-        ingredient.setName(ingredientDto.getName());
-        ingredient.setCaloriesAmount(ingredientDto.getCaloriesAmount());
-        ingredient.setCarbsAmount(ingredientDto.getCarbsAmount());
-        ingredient.setProteinAmount(ingredientDto.getProteinAmount());
-        ingredient.setGlycemicIndex(ingredientDto.getGlycemicIndex());
-        ingredient.setFatsAmount(ingredientDto.getFatsAmount());
-
-        ingredientDao.save(ingredient);
+        Ingredient existingIngredient = ingredientDao.findIngredientByName(ingredientDto.getName());
+        if(existingIngredient != null){
+            existingIngredient.setCaloriesAmount(ingredientDto.getCaloriesAmount());
+            existingIngredient.setCarbsAmount(ingredientDto.getCarbsAmount());
+            existingIngredient.setProteinAmount(ingredientDto.getProteinAmount());
+            existingIngredient.setGlycemicIndex(ingredientDto.getGlycemicIndex());
+            existingIngredient.setFatsAmount(ingredientDto.getFatsAmount());
+            ingredientDao.save(existingIngredient);
+        }else{
+            Ingredient ingredient = new Ingredient();
+            ingredient.setName(ingredientDto.getName());
+            ingredient.setCaloriesAmount(ingredientDto.getCaloriesAmount());
+            ingredient.setCarbsAmount(ingredientDto.getCarbsAmount());
+            ingredient.setProteinAmount(ingredientDto.getProteinAmount());
+            ingredient.setGlycemicIndex(ingredientDto.getGlycemicIndex());
+            ingredient.setFatsAmount(ingredientDto.getFatsAmount());
+            ingredientDao.save(ingredient);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package pl.cyrkoniowa.centrumdiety.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +42,7 @@ public class IngredientsController {
     }
 
     /**
-     * Wyświetla dodawania składnika
+     * Wyświetla stronę dodawania składnika
      *
      * @param model model do przekazywania danych do widoku
      * @return widok dodawania składnika
@@ -49,6 +50,25 @@ public class IngredientsController {
     @GetMapping("/add-ingredient")
     public String showAddIngredientPage(Model model) {
         model.addAttribute("ingredientDto", new IngredientDto());
+        return "dietitian/add-ingredient";
+    }
+
+    /**
+     * Wyświetla stronę edycji składnika
+     *
+     * @param request żądanie HTTP
+     * @return widok edycji składnika
+     */
+    @GetMapping("/edit-ingredient")
+    public String showEditIngredientPage(HttpServletRequest request, Model model) {
+        model.addAttribute("ingredientDto", new IngredientDto());
+        if(request.getParameter("name")!=null){
+            IngredientDto ingredientDto = ingredientService.findIngredientByName(request.getParameter("name"));
+            if(ingredientDto!=null){
+                model.addAttribute("ingredientDto", ingredientDto);
+                model.addAttribute("existingIngredient", true);
+            }
+        }
         return "dietitian/add-ingredient";
     }
 
