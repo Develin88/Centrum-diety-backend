@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import pl.cyrkoniowa.centrumdiety.entity.Recipe;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +19,8 @@ public class RecipeDto {
     private BigDecimal fatsAmount;
     private BigDecimal carbsAmount;
     private int preparationTime;
+    private String preparationDescription;
+    private List<IngredientDto> ingredients;
 
     public RecipeDto(Recipe recipe) {
         this.name = recipe.getName();
@@ -27,5 +30,9 @@ public class RecipeDto {
         this.fatsAmount = recipe.getFatsAmount();
         this.carbsAmount = recipe.getCarbsAmount();
         this.preparationTime = recipe.getPreparationTime();
+        this.preparationDescription = recipe.getPreparationDescription();
+        this.ingredients = recipe.getIngredientsList().stream()
+                .map(IngredientDto::new)
+                .toList();
     }
 }

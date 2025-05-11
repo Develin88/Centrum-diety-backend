@@ -2,14 +2,137 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="pl">
 <head th:replace="~{staticElements/header :: commonHead('Dodawanie przepisu')}">
     <title>Centrum Diety</title>
-    <th:block th:fragment="extraHead"/>
+    <th:block th:fragment="extraHead">
+        <script th:src="@{/js/external/select2.min.js}" defer></script>
+        <script th:src="@{/js/external/i18n/select2-translations-pl.js}" defer></script>
+        <script th:src="@{/js/add-recipe.js}" defer></script>
+    </th:block>
 </head>
 <body class="d-flex flex-column min-vh-100">
 <header th:replace="~{staticElements/header :: bodyHeader}"></header>
 <nav th:replace="~{staticElements/nav :: userNav}"></nav>
-<main class="container mt-5 mb-3">
-    Tu będzie formularz dodawania przepisu.
+<main class="container-fluid mt-5 mb-3">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h3 class="card-title text-center">Dodawanie przepisu</h3>
+                </div>
+                <div class="card-body">
+                    <form action="#"
+                          th:action="@{/process-recipe-form}"
+                          th:object="${recipeDto}"
+                          method="POST"
+                          class="form-horizontal">
+                        <div class="form-floating mb-3">
+                            <input
+                                    th:field="*{name}"
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    placeholder="Nazwa przepisu"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('name') ? ' is-invalid' : ''}"
+                                    aria-describedby="nameValidationFeedback"
+                                    required=""/>
+                            <label for="name">Nazwa przepisu</label>
+                            <div id="nameValidationFeedback" class="invalid-feedback">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('name')}" th:text="${err}"/>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Składniki:</label>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ingredientModal">
+                                    Wybierz składnik
+                                </button>
+                            </div>
+                            <div id="ingredientsList" class="list-group">
+                                <!-- Here ingredients will be displayed dynamically -->
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <textarea
+                                    th:field="*{preparationDescription}"
+                                    id="preparationDescription"
+                                    name="preparationDescription"
+                                    placeholder="Opis przygotowania przepisu"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('preparationDescription') ? ' is-invalid' : ''}"
+                                    aria-describedby="preparationDescriptionValidationFeedback"
+                                    required=""></textarea>
+                            <label for="preparationDescription">Opis przygotowania przepisu</label>
+                            <div id="preparationDescriptionValidationFeedback" class="invalid-feedback">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('preparationDescription')}" th:text="${err}"/>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="controls d-flex justify-content-center controls">
+                                <button  type="submit" class="btn btn-success">
+                                    <span th:if="${existingRecipe!=null && existingRecipe==true}">Edytuj przepis</span>
+                                    <span th:if="${existingRecipe==null}">Dodaj przepis</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
+
+<div class="modal fade" id="ingredientModal" tabindex="-1" aria-labelledby="ingredientModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ingredientModalLabel">Wybierz składnik</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group mb-3">
+                    <label for="ingredientSelect" class="form-label">Składnik</label>
+                    <select id="ingredientSelect"></select>
+                </div>
+                <div class="mb-3">
+                    <label for="ingredientAmount">Ilość</label>
+                    <input
+                            type="number"
+                            id="ingredientAmount"
+                            name="ingredientAmount"
+                            placeholder="Ilość"
+                            class="form-control"
+                            required=""/>
+                </div>
+                <div class="mb-3">
+                    <label for="measurementUnit" class="form-label">Jednostka miary</label>
+                    <select id="measurementUnit">
+                        <option value="g">g</option>
+                        <option value="ml">ml</option>
+                    </select>
+                </div>
+                <div id="ingredientCard" class="card mt-3 d-none">
+                    <div class="card-body">
+                        <p class="card-text">
+                            Kalorie: <span id="calculatedCalories"><strong></strong></span> kcal<br/>
+                            Białko: <span id="calculatedProtein"><strong></strong></span> g<br/>
+                            Tłuszcze: <span id="calculatedFat"><strong></strong></span> g <br/>
+                            Węglowodany: <span id="calculatedCarbs"><strong></strong></span> g<br/>
+                            Indeks glikemiczny: <span id="calculatedGlycemicIndex"><strong></strong></span> g
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                <button type="button" class="btn btn-primary" id="addIngredientBtn">Dodaj składnik</button>
+            </div>
+        </div>
+    </div>
+</div>
 <footer th:replace="~{staticElements/footer :: footer}"></footer>
 </body>
 </html>

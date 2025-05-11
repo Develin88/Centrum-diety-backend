@@ -3,7 +3,9 @@ package pl.cyrkoniowa.centrumdiety.dao.impl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import pl.cyrkoniowa.centrumdiety.dao.RecipeDao;
+import pl.cyrkoniowa.centrumdiety.entity.Ingredient;
 import pl.cyrkoniowa.centrumdiety.entity.Recipe;
 
 import java.util.List;
@@ -101,5 +103,37 @@ public class RecipeDaoImpl implements RecipeDao {
                 "select count(r) from Recipe r  where LOWER(r.name) like :textToSearch",Long.class);
         countQuery.setParameter("textToSearch", "%"+textToSearch.toLowerCase()+"%");
         return countQuery.getSingleResult();
+    }
+
+    /**
+     * {@inheritDoc}
+     * Implementacja metody znajdującej przepis w bazie danych na podstawie nazwy.
+     *
+     * @return obiekt składnika Recipe
+     */
+    @Override
+    public Recipe findRecipeByName(String name) {
+        TypedQuery<Recipe> theQuery = entityManager.createQuery("from Recipe where name=:name", Recipe.class);
+        theQuery.setParameter("name", name);
+        Recipe recipe = null;
+        try {
+            recipe = theQuery.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+        return recipe;
+    }
+
+    /**
+     * {@inheritDoc}
+     * Implementacja metody zapisującej przepis w bazie danych.
+     * Używa operacji merge do aktualizacji istniejącego lub utworzenia nowego przepisu.
+     *
+     * @param recipe obiekt przepisu do zapisania
+     */
+    @Override
+    @Transactional
+    public void save(Recipe recipe) {
+        entityManager.merge(recipe);
     }
 }

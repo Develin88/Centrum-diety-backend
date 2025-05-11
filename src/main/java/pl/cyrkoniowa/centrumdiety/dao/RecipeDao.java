@@ -1,5 +1,6 @@
 package pl.cyrkoniowa.centrumdiety.dao;
 
+import pl.cyrkoniowa.centrumdiety.entity.Ingredient;
 import pl.cyrkoniowa.centrumdiety.entity.Recipe;
 
 import java.util.List;
@@ -33,4 +34,18 @@ public interface RecipeDao {
      * @return liczba obiektów Recipe
      */
     long countRecipesByText(String textToSearch);
+
+    /**
+     * Znajduje przepis w bazie danych na podstawie nazwy.
+     *
+     * @param name nazwa przepisu do wyszukania
+     */
+    Recipe findRecipeByName(String name);
+
+    /**
+     * Zapisuje przepis w bazie danych.
+     *
+     * @param recipe obiekt przepisu do zapisania
+     */
+    void save(Recipe recipe);
 }
