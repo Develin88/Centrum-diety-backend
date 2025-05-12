@@ -136,4 +136,16 @@ public class RecipeDaoImpl implements RecipeDao {
     public void save(Recipe recipe) {
         entityManager.merge(recipe);
     }
+
+    /**
+     * {@inheritDoc}
+     * Implementacja metody usuwającej przepis z baziy danych.
+     *
+     * @param recipe obiekt przepisu do usunięcia
+     */
+    @Override
+    @Transactional
+    public void deleteRecipe(Recipe recipe) {
+        entityManager.remove(recipe);
+    }
 }

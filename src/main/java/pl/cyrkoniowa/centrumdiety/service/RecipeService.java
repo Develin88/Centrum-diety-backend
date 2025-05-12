@@ -30,4 +30,11 @@ public interface RecipeService {
      * @param recipeDto obiekt zawierający dane przepisu
      */
     void save(RecipeDto recipeDto);
+
+    /**
+     * Usuwa przepis na podstawie nazwy.
+     *
+     * @param name nazwa przepisu do usunięcia
+     */
+    void deleteRecipe(String name);
 }

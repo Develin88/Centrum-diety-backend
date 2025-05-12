@@ -29,28 +29,19 @@ const RecipesTable = (() => {
     };
 
     const actionsFormatter = (e, value, row) => [
-        '<a href="/edit-recipe?name='+value.name+'" title="Edit Recipe">',
+        '<a href="/view-recipe?name='+value.name+'" title="View Recipe">',
+        '<i class="fa fa-magnifying-glass"></i>',
+        '</a>  ',
+        '<a class="ms-2" href="/edit-recipe?name='+value.name+'" title="Edit Recipe">',
         '<i class="fa fa-pen"></i>',
         '</a>  ',
     ].join('')
-
-    const init = () => {
-        const $addRecipeButton = $('#add-recipe-btn');
-
-        $addRecipeButton.click(function () {
-            alert('test');
-        });
-
-    };
-
     return {
-        init,
         fetchRecipesData,
         actionsFormatter
     };
 })();
 
 
-RecipesTable.init();
 window.fetchRecipesData = RecipesTable.fetchRecipesData;
 window.actionsFormatter = RecipesTable.actionsFormatter;

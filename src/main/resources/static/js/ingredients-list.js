@@ -28,18 +28,7 @@ const IngredientsTable = (() => {
         '<i class="fa fa-pen"></i>',
         '</a>  ',
     ].join('')
-
-    const init = () => {
-        // const $addIngredientButton = $('#add-ingredient-btn');
-        //
-        // $addIngredientButton.click(function () {
-        //     alert('test');
-        // });
-
-    };
-
     return {
-        init,
         fetchIngredientsData,
         actionsFormatter
     };

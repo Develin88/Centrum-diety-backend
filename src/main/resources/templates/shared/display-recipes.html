@@ -21,13 +21,14 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         <div id="recipes-table-toolbar">
-                            <button
+                            <a
                                     sec:authorize="hasRole(T(pl.cyrkoniowa.centrumdiety.security.Roles).DIETITIAN.getRoleName())"
                                     id="add-recipe-btn"
                                     class="btn btn-success"
+                                    th:href="@{/add-recipe}"
                             >
                                 <i class="fa fa-plus"></i> Dodaj przepis
-                            </button>
+                            </a>
                         </div>
                         <table id="recipes-table"
                                data-toggle="table"

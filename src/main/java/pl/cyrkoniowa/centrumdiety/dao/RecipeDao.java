@@ -48,4 +48,11 @@ public interface RecipeDao {
      * @param recipe obiekt przepisu do zapisania
      */
     void save(Recipe recipe);
+
+    /**
+     * Usuwa przepis z bazy danych.
+     *
+     * @param recipe obiekt przepisu do zapisania
+     */
+    void deleteRecipe(Recipe recipe);
 }

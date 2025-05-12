@@ -5,6 +5,7 @@ $(document).ready(function() {
     const $measurementUnit = $('#measurementUnit');
     const $ingredientsList = $('#ingredientsList');
     const $addIngredientBtn = $('#addIngredientBtn');
+    const $deleteRecipeBtn = $('#deleteRecipeBtn');
     $('#ingredientSelect').select2({
         theme: "bootstrap-5",
         dropdownParent: $ingredientModal,
@@ -52,6 +53,9 @@ $(document).ready(function() {
     });
     $ingredientsList.on('click', '.edit-ingredient-btn', function () {
         editIngredient($(this).closest('li'));
+    });
+    $deleteRecipeBtn.on('click',  function () {
+       deleteRecipe();
     });
     updateNutritionSummary();
 });
@@ -103,10 +107,13 @@ function addIngredientToRecipe() {
     }
 
     const $ingredientCardElement = $('#ingredientCard');
-    const ingredientData = $('#ingredientSelect').select2('data');
+    let ingredientData = $('#ingredientSelect').select2('data');
     const ingredientAmount = parseFloat($('#ingredientAmount').val());
     const measurementUnit = $('#measurementUnit').val();
     if (ingredientData && ingredientAmount && $ingredientCardElement) {
+        if($(ingredientData[0].element).data('ingredientData')){
+            ingredientData = $(ingredientData[0].element).data('ingredientData') ;
+        }
         const recipeIngredient = {
             name: ingredientData[0].text,
             amount: ingredientAmount,
@@ -158,31 +165,28 @@ function deleteIngredient($ingredientElement){
 }
 
 function editIngredient($ingredientElement){
-    const name = $ingredientElement.find('.ingredient-name').text().trim();
+
+    const $ingredientNameElement = $ingredientElement.find('.ingredient-name');
     const amount = $ingredientElement.find('.ingredient-amount').text().trim();
     const measurementUnit = $ingredientElement.find('.ingredient-measurement-unit').text().trim();
-
-    $.ajax({
-        url: '/api/ingredients/findIngredientByName?name=' + name,
-        success: function (data) {
-            if (data) {
-                const newOption = new Option(data.name, data.id, true, true);
-                const ingredientData = [{
-                    id: data.id,
-                    text: data.name,
-                    caloriesAmount: data.caloriesAmount,
-                    proteinAmount: data.proteinAmount,
-                    fatsAmount: data.fatsAmount,
-                    carbsAmount: data.carbsAmount,
-                    glycemicIndex: data.glycemicIndex
-                }];
-
-                // Dodajemy nową opcję do Select2
-                $('#ingredientSelect').append(newOption).trigger('change');
-                $(newOption).data('ingredientData', ingredientData);
-            }
-        }
-    });
+    const name = $ingredientNameElement.text().trim();
+    const caloriesAmount = parseFloat($ingredientNameElement.data('caloriesamount'));
+    const carbsAmount = parseFloat($ingredientNameElement.data('carbsamount'));
+    const fatsAmount = parseFloat($ingredientNameElement.data('fatsamount'));
+    const proteinAmount = parseFloat($ingredientNameElement.data('proteinamount'));
+    const glycemicIndex = parseFloat($ingredientNameElement.data('glycemicindex'));
+    const ingredientData = [{
+                        id: name,
+                        text: name,
+                        caloriesAmount: caloriesAmount,
+                        proteinAmount: proteinAmount,
+                        fatsAmount: fatsAmount,
+                        carbsAmount: carbsAmount,
+                        glycemicIndex: glycemicIndex
+                    }];
+    const newOption = new Option(name, name, true, true);
+    $(newOption).data('ingredientData', ingredientData);
+    $('#ingredientSelect').append(newOption).trigger('change');
     $('#ingredientAmount').val(amount);
     $('#ingredientSelect').prop('disabled', true);
     $('#measurementUnit').val(measurementUnit).trigger('change');
@@ -214,15 +218,15 @@ function updateNutritionSummary() {
 
     $('#ingredientsList li').each(function () {
         const $li = $(this);
-        const $ingredientElement = $li.find('.ingredient-name');
+        const $ingredientNameElement = $li.find('.ingredient-name');
         const amount = parseFloat($li.find('.ingredient-amount').text().trim()) || 0;
         const unit = $li.find('.ingredient-measurement-unit').text().trim();
 
-        const caloriesAmount = parseFloat($ingredientElement.data('caloriesamount'));
-        const carbsAmount = parseFloat($ingredientElement.data('carbsamount'));
-        const fatsAmount = parseFloat($ingredientElement.data('fatsamount'));
-        const proteinAmount = parseFloat($ingredientElement.data('proteinamount'));
-        const glycemicIndex = parseFloat($ingredientElement.data('glycemicindex'));
+        const caloriesAmount = parseFloat($ingredientNameElement.data('caloriesamount'));
+        const carbsAmount = parseFloat($ingredientNameElement.data('carbsamount'));
+        const fatsAmount = parseFloat($ingredientNameElement.data('fatsamount'));
+        const proteinAmount = parseFloat($ingredientNameElement.data('proteinamount'));
+        const glycemicIndex = parseFloat($ingredientNameElement.data('glycemicindex'));
 
         const factor = unit === 'g' || unit === 'ml' ? (amount / 100.0) : 1;
 
@@ -235,7 +239,7 @@ function updateNutritionSummary() {
         totalWeight += amount;
     });
 
-    $('#caloriesAmount').val(totalCalories.toFixed(1));
+    $('#caloriesAmount').val(Math.round(totalCalories));
     $('#proteinAmount').val(totalProtein.toFixed(1));
     $('#fatsAmount').val(totalFats.toFixed(1));
     $('#carbsAmount').val(totalCarbs.toFixed(1));
@@ -258,4 +262,28 @@ function updateNutritionSummary() {
     }
 
     $('#glycemicLoad').val(glycemicLoadText).attr('class', glycemicLoadClass);
+}
+
+function deleteRecipe(){
+    const recipeName = $('#name').val();
+    const csrfToken = $('meta[name="_csrf"]').attr('content');
+    const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+    fetch(`/api/recipes/delete-recipe?name=${encodeURI(recipeName)}`, {
+        method: 'DELETE',
+        headers: {
+            [csrfHeader]: csrfToken
+        }
+    })
+        .then(response => {
+            if (response.ok) {
+                alert('Przepis został usunięty.');
+                window.location.assign('/dashboard');
+            } else {
+                alert('Wystąpił błąd przy usuwaniu przepisu.');
+            }
+        })
+        .catch(error => {
+            console.error('Błąd:', error);
+            alert('Błąd sieciowy!');
+        });
 }

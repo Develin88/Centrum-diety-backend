@@ -70,6 +70,25 @@ public class RecipesController {
     }
 
     /**
+     * Wyświetla stronę podglądu przepisu
+     *
+     * @param request żądanie HTTP
+     * @return widok poglądu przepisu
+     */
+    @GetMapping("/view-recipe")
+    public String showViewRecipePage(HttpServletRequest request, Model model) {
+        model.addAttribute("recipeDto", new RecipeDto());
+        if(request.getParameter("name")!=null){
+            RecipeDto recipeDto = recipeService.findRecipeByName(request.getParameter("name"));
+            if(recipeDto!=null){
+                model.addAttribute("recipeDto", recipeDto);
+                model.addAttribute("readOnly", true);
+            }
+        }
+        return "dietitian/add-recipe";
+    }
+
+    /**
      * Przetwarza formularz Dodawania/edycji przepisu.
      *
      * @param recipeDto przepis z formularza

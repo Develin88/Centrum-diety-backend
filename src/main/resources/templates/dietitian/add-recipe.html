@@ -34,6 +34,7 @@
                                     class="form-control"
                                     th:classappend="${#fields.hasErrors('name') ? ' is-invalid' : ''}"
                                     aria-describedby="nameValidationFeedback"
+                                    th:disabled="${readOnly}"
                                     required=""/>
                             <label for="name">Nazwa przepisu</label>
                             <div id="nameValidationFeedback" class="invalid-feedback">
@@ -45,7 +46,7 @@
                         <div id="hiddenIngredientsContainer"></div>
                         <div id="ingredients-wrapper" class="form-group w-25 mb-3 d-flex flex-column">
                             <label class="form-label align-self-center">Składniki:</label>
-                            <div class="d-flex justify-content-between align-items-center mb-2 align-self-center">
+                            <div th:if="${readOnly == null or !readOnly}" class="d-flex justify-content-between align-items-center mb-2 align-self-center">
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal"
                                         data-bs-target="#ingredientModal">
                                     Wybierz składnik
@@ -67,10 +68,10 @@
                                                   th:data-glycemicIndex="${ingredient.getGlycemicIndex()}"></span>
                                         </div>
                                         <div>
-                                            <button type="button" class="btn btn-success btn-sm edit-ingredient-btn">
+                                            <button th:if="${readOnly == null or !readOnly}" type="button" class="btn btn-success btn-sm edit-ingredient-btn">
                                                 <i class="fa fa-pen" aria-hidden="true"></i>
                                             </button>
-                                            <button type="button" class="btn btn-danger btn-sm delete-ingredient-btn">
+                                            <button th:if="${readOnly == null or !readOnly}" type="button" class="btn btn-danger btn-sm delete-ingredient-btn">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </button>
                                         </div>
@@ -88,6 +89,7 @@
                                     class="form-control"
                                     th:classappend="${#fields.hasErrors('preparationTime') ? ' is-invalid' : ''}"
                                     aria-describedby="preparationTimeValidationFeedback"
+                                    th:disabled="${readOnly}"
                                     required=""/>
                             <label for="preparationTime">Czas przygotowania (min)</label>
                             <div id="preparationTimeValidationFeedback" class="invalid-feedback">
@@ -103,8 +105,10 @@
                                     name="preparationDescription"
                                     placeholder="Opis przygotowania przepisu"
                                     class="form-control"
+                                    style="height: 200px;"
                                     th:classappend="${#fields.hasErrors('preparationDescription') ? ' is-invalid' : ''}"
                                     aria-describedby="preparationDescriptionValidationFeedback"
+                                    th:disabled="${readOnly}"
                                     required=""></textarea>
                             <label for="preparationDescription">Opis przygotowania przepisu</label>
                             <div id="preparationDescriptionValidationFeedback" class="invalid-feedback">
@@ -113,7 +117,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div id="nutritionSummary" class="card shadow" style="position: fixed; bottom: 20px; right: 20px; width: 300px; z-index: 1050;">
+                        <div id="nutritionSummary" class="card shadow">
                             <div class="card-body">
                                 <h5 class="card-title">Podsumowanie</h5>
                                 <div class="form-group mb-2">
@@ -138,10 +142,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div th:if="${readOnly == null or !readOnly}" class="form-group">
                             <div class="controls d-flex justify-content-center controls">
                                 <button type="submit" class="btn btn-success">
                                     <span>Zapisz przepis</span>
+                                </button>
+                                <button type="button" id="deleteRecipeBtn" class="btn btn-danger ms-2">
+                                    <span>Usuń przepis</span>
                                 </button>
                             </div>
                         </div>

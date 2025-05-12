@@ -117,4 +117,12 @@ public class RecipeServiceImpl implements RecipeService {
         }
         recipeDao.save(recipe);
     }
+
+    @Override
+    public void deleteRecipe(String name) {
+        Recipe recipe = recipeDao.findRecipeByName(name);
+        if(recipe != null) {
+            recipeDao.deleteRecipe(recipe);
+        }
+    }
 }
