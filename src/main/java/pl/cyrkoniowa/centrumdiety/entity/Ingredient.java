@@ -35,6 +35,6 @@ public class Ingredient {
     @Column(name="carbs_amount")
     private BigDecimal carbsAmount;
 
-    @ManyToMany(mappedBy = "ingredientsList")
-    private List<Recipe> recipes = new ArrayList<>();
+    @OneToMany(mappedBy = "ingredient")
+    private List<RecipeIngredient> usedInRecipes = new ArrayList<>();
 }

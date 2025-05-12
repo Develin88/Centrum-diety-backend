@@ -28,6 +28,11 @@ const RecipesTable = (() => {
         return $table.bootstrapTable('getSelections').map(row => row.userName);
     };
 
+    const actionsFormatter = (e, value, row) => [
+        '<a href="/edit-recipe?name='+value.name+'" title="Edit Recipe">',
+        '<i class="fa fa-pen"></i>',
+        '</a>  ',
+    ].join('')
 
     const init = () => {
         const $addRecipeButton = $('#add-recipe-btn');
@@ -40,10 +45,12 @@ const RecipesTable = (() => {
 
     return {
         init,
-        fetchRecipesData
+        fetchRecipesData,
+        actionsFormatter
     };
 })();
 
 
 RecipesTable.init();
 window.fetchRecipesData = RecipesTable.fetchRecipesData;
+window.actionsFormatter = RecipesTable.actionsFormatter;

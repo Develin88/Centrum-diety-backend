@@ -66,7 +66,6 @@ public class IngredientsController {
             IngredientDto ingredientDto = ingredientService.findIngredientByName(request.getParameter("name"));
             if(ingredientDto!=null){
                 model.addAttribute("ingredientDto", ingredientDto);
-                model.addAttribute("existingIngredient", true);
             }
         }
         return "dietitian/add-ingredient";

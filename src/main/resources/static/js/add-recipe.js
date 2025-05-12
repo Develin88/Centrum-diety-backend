@@ -1,8 +1,13 @@
 // In your Javascript (external .js resource or <script> tag)
 $(document).ready(function() {
+    const $ingredientModal = $('#ingredientModal');
+    const $ingredientAmount = $('#ingredientAmount');
+    const $measurementUnit = $('#measurementUnit');
+    const $ingredientsList = $('#ingredientsList');
+    const $addIngredientBtn = $('#addIngredientBtn');
     $('#ingredientSelect').select2({
         theme: "bootstrap-5",
-        dropdownParent: $('#ingredientModal'),
+        dropdownParent: $ingredientModal,
         placeholder: 'Wyszukaj składnik',
         language: "pl",
         ajax: {
@@ -30,19 +35,34 @@ $(document).ready(function() {
     }).on('select2:select', function (e) {
         calculateIngredientInfo();
     });
-    $('#measurementUnit').select2({
+    $measurementUnit.select2({
         theme: "bootstrap-5"
     });
-    $('#ingredientAmount').on('input', function () {
+    $ingredientAmount.on('input', function () {
         calculateIngredientInfo();
+    });
+    $ingredientModal.on('hidden.bs.modal', function () {
+        resetIngredientModal();
+    });
+    $addIngredientBtn.on('click', function () {
+        addIngredientToRecipe();
+    });
+    $ingredientsList.on('click', '.delete-ingredient-btn', function () {
+        deleteIngredient($(this).closest('li'));
+    });
+    $ingredientsList.on('click', '.edit-ingredient-btn', function () {
+        editIngredient($(this).closest('li'));
     });
 });
 
 function calculateIngredientInfo(){
     const $ingredientCardElement = $('#ingredientCard');
-    const ingredientData = $('#ingredientSelect').select2('data');
+    let ingredientData = $('#ingredientSelect').select2('data');
     const ingredientAmount = parseFloat($('#ingredientAmount').val());
     if(ingredientData && ingredientAmount && $ingredientCardElement){
+        if($(ingredientData[0].element).data('ingredientData')){
+            ingredientData = $(ingredientData[0].element).data('ingredientData') ;
+        }
         const caloriesAmount = parseFloat(ingredientData[0].caloriesAmount); // Wartość kalorii dla 100g/ml
         const proteinAmount = parseFloat(ingredientData[0].proteinAmount); // Wartość białka dla 100g/ml
         const fatsAmount = parseFloat(ingredientData[0].fatsAmount); // Wartość tłuszczy dla 100g/ml
@@ -60,4 +80,117 @@ function calculateIngredientInfo(){
             $ingredientCardElement.removeClass('d-none');
         }
     }
+}
+
+function resetIngredientModal(){
+    $('#calculatedCalories strong').text('');
+    $('#calculatedProtein strong').text('');
+    $('#calculatedFat strong').text('');
+    $('#calculatedCarbs strong').text('');
+    $('#calculatedGlycemicIndex strong').text('');
+    $('#ingredientCard').addClass('d-none');
+    $('#ingredientAmount').val('') ;
+    $('#ingredientSelect').val(null).trigger('change');
+    $('#ingredientSelect').prop('disabled', false);
+}
+
+function addIngredientToRecipe() {
+    const $ingredientForm = $('#ingredientForm');
+    if (!$ingredientForm[0].checkValidity()) {
+        $ingredientForm[0].classList.add('was-validated')
+        return;
+    }
+
+    const $ingredientCardElement = $('#ingredientCard');
+    const ingredientData = $('#ingredientSelect').select2('data');
+    const ingredientAmount = parseFloat($('#ingredientAmount').val());
+    const measurementUnit = $('#measurementUnit').val();
+    if (ingredientData && ingredientAmount && $ingredientCardElement) {
+        const recipeIngredient = {
+            name: ingredientData[0].text,
+            amount: ingredientAmount,
+            measurementUnit: measurementUnit
+        };
+        const $li = $(`
+                        <li class="list-group-item d-flex align-items-center justify-content-between">
+                          <div>
+                            <span class="badge text-bg-success rounded-pill me-2">
+                              <span class="ingredient-amount">${recipeIngredient.amount}</span> <span class="ingredient-measurement-unit">${recipeIngredient.measurementUnit}</span>
+                            </span>
+                            <span class="ingredient-name">${recipeIngredient.name}</span>
+                          </div>
+                          <div>
+                            <button type="button" class="btn btn-success btn-sm edit-ingredient-btn">
+                              <i class="fa fa-pen" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm delete-ingredient-btn">
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                          </div>
+                        </li>
+                      `);
+
+        const $existingLi = $('#ingredientsList .ingredient-name').filter(function () {
+            return $(this).text().trim() === recipeIngredient.name;
+        }).closest('li');
+
+        if ($existingLi.length > 0) {
+            $existingLi.replaceWith($li);
+        } else {
+            $('#ingredientsList').append($li);
+        }
+        updateHiddenIngredients();
+    }
+    $('#ingredientModal').modal('hide');
+}
+
+function deleteIngredient($ingredientElement){
+    $ingredientElement.remove();
+    updateHiddenIngredients();
+}
+
+function editIngredient($ingredientElement){
+    const name = $ingredientElement.find('.ingredient-name').text().trim();
+    const amount = $ingredientElement.find('.ingredient-amount').text().trim();
+    const measurementUnit = $ingredientElement.find('.ingredient-measurement-unit').text().trim();
+
+    $.ajax({
+        url: '/api/ingredients/findIngredientByName?name=' + name,
+        success: function (data) {
+            if (data) {
+                const newOption = new Option(data.name, data.id, true, true);
+                const ingredientData = [{
+                    id: data.id,
+                    text: data.name,
+                    caloriesAmount: data.caloriesAmount,
+                    proteinAmount: data.proteinAmount,
+                    fatsAmount: data.fatsAmount,
+                    carbsAmount: data.carbsAmount,
+                    glycemicIndex: data.glycemicIndex
+                }];
+
+                // Dodajemy nową opcję do Select2
+                $('#ingredientSelect').append(newOption).trigger('change');
+                $(newOption).data('ingredientData', ingredientData);
+            }
+        }
+    });
+    $('#ingredientAmount').val(amount);
+    $('#ingredientSelect').prop('disabled', true);
+    $('#measurementUnit').val(measurementUnit).trigger('change');
+    $('#ingredientModal').modal('show');
+}
+
+function updateHiddenIngredients() {
+    const $container = $('#hiddenIngredientsContainer');
+    $container.empty();
+    $('#ingredientsList li').each(function(index) {
+        const name = $(this).find('.ingredient-name').text().trim();
+        const amount = $(this).find('.ingredient-amount').text().trim();
+        const unit = $(this).find('.ingredient-measurement-unit').text().trim();
+
+        $container.append(`<input type="hidden" name="ingredientsList[${index}].ingredientName" value="${name}" />`);
+        $container.append(`<input type="hidden" name="ingredientsList[${index}].ingredientAmount" value="${amount}" />`);
+        $container.append(`<input type="hidden" name="ingredientsList[${index}].ingredientMeasurementUnit" value="${unit}" />`);
+    });
 }

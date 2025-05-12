@@ -42,15 +42,53 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="form-group mb-3">
+                        <div id="hiddenIngredientsContainer"></div>
+                        <div id="ingredients-wrapper" class="form-group mb-3 d-flex flex-column align-items-center">
                             <label class="form-label">Składniki:</label>
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ingredientModal">
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                        data-bs-target="#ingredientModal">
                                     Wybierz składnik
                                 </button>
                             </div>
-                            <div id="ingredientsList" class="list-group">
-                                <!-- Here ingredients will be displayed dynamically -->
+                            <div class="w-25">
+                                <ul id="ingredientsList" class="list-group">
+                                    <li th:each="ingredient: ${recipeDto.getIngredientsList()}" class="list-group-item d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <span class="badge text-bg-success rounded-pill me-2">
+                                                <span th:text="${ingredient.getIngredientAmount()}" class="ingredient-amount"></span>
+                                                <span th:text="${ingredient.getIngredientMeasurementUnit()}" class="ingredient-measurement-unit"></span>
+                                             </span>
+                                            <span th:text="${ingredient.getIngredientName()}" class="ingredient-name"></span>
+                                        </div>
+                                        <div>
+                                            <button type="button" class="btn btn-success btn-sm edit-ingredient-btn">
+                                                <i class="fa fa-pen" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-sm delete-ingredient-btn">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input
+                                    th:field="*{preparationTime}"
+                                    type="number"
+                                    id="preparationTime"
+                                    name="preparationTime"
+                                    placeholder="Czas przygotowania (min)"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('preparationTime') ? ' is-invalid' : ''}"
+                                    aria-describedby="preparationTimeValidationFeedback"
+                                    required=""/>
+                            <label for="preparationTime">Czas przygotowania (min)</label>
+                            <div id="preparationTimeValidationFeedback" class="invalid-feedback">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('preparationTime')}" th:text="${err}"/>
+                                </ul>
                             </div>
                         </div>
                         <div class="form-floating mb-3">
@@ -70,11 +108,100 @@
                                 </ul>
                             </div>
                         </div>
+                        <div class="form-floating mb-3">
+                            <input
+                                    th:field="*{caloriesAmount}"
+                                    type="number"
+                                    id="caloriesAmount"
+                                    name="caloriesAmount"
+                                    placeholder="Ilość kalorii"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('name') ? ' is-invalid' : ''}"
+                                    aria-describedby="caloriesAmountValidationFeedback"
+                                    required=""/>
+                            <label for="caloriesAmount">Ilość kalorii</label>
+                            <div id="caloriesAmountValidationFeedback" class="invalid-feedback">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('caloriesAmount')}" th:text="${err}"/>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input
+                                    th:field="*{glycemicLoad}"
+                                    type="text"
+                                    id="glycemicLoad"
+                                    name="glycemicLoad"
+                                    placeholder="Ładunek glikemiczny"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('glycemicLoad') ? ' is-invalid' : ''}"
+                                    aria-describedby="glycemicLoadValidationFeedback"
+                                    required=""/>
+                            <label for="glycemicLoad">Ładunek glikemiczny</label>
+                            <div id="glycemicLoadValidationFeedback" class="invalid-feedback">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('glycemicLoad')}" th:text="${err}"/>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input
+                                    th:field="*{proteinAmount}"
+                                    type="number"
+                                    id="proteinAmount"
+                                    name="proteinAmount"
+                                    placeholder="Ilość białka"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('proteinAmount') ? ' is-invalid' : ''}"
+                                    aria-describedby="proteinAmountValidationFeedback"
+                                    required=""/>
+                            <label for="proteinAmount">Ilość białka</label>
+                            <div id="proteinAmountValidationFeedback" class="invalid-feedback">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('proteinAmount')}" th:text="${err}"/>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input
+                                    th:field="*{fatsAmount}"
+                                    type="number"
+                                    id="fatsAmount"
+                                    name="fatsAmount"
+                                    placeholder="Ilość tłuszczów"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('fatsAmount') ? ' is-invalid' : ''}"
+                                    aria-describedby="fatsAmountValidationFeedback"
+                                    required=""/>
+                            <label for="fatsAmount">Ilość tłuszczów</label>
+                            <div id="fatsAmountValidationFeedback" class="invalid-feedback">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('fatsAmount')}" th:text="${err}"/>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input
+                                    th:field="*{carbsAmount}"
+                                    type="number"
+                                    id="carbsAmount"
+                                    name="carbsAmount"
+                                    placeholder="Ilość węglowodanów"
+                                    class="form-control"
+                                    th:classappend="${#fields.hasErrors('carbsAmount') ? ' is-invalid' : ''}"
+                                    aria-describedby="carbsAmountValidationFeedback"
+                                    required=""/>
+                            <label for="carbsAmount">Ilość węglowodanów</label>
+                            <div id="carbsAmountValidationFeedback" class="invalid-feedback">
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('carbsAmount')}" th:text="${err}"/>
+                                </ul>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="controls d-flex justify-content-center controls">
-                                <button  type="submit" class="btn btn-success">
-                                    <span th:if="${existingRecipe!=null && existingRecipe==true}">Edytuj przepis</span>
-                                    <span th:if="${existingRecipe==null}">Dodaj przepis</span>
+                                <button type="submit" class="btn btn-success">
+                                    <span>Zapisz przepis</span>
                                 </button>
                             </div>
                         </div>
@@ -86,49 +213,61 @@
 </main>
 
 <div class="modal fade" id="ingredientModal" tabindex="-1" aria-labelledby="ingredientModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog me-auto ms-5 modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ingredientModalLabel">Wybierz składnik</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="form-group mb-3">
-                    <label for="ingredientSelect" class="form-label">Składnik</label>
-                    <select id="ingredientSelect"></select>
-                </div>
-                <div class="mb-3">
-                    <label for="ingredientAmount">Ilość</label>
-                    <input
-                            type="number"
-                            id="ingredientAmount"
-                            name="ingredientAmount"
-                            placeholder="Ilość"
-                            class="form-control"
-                            required=""/>
-                </div>
-                <div class="mb-3">
-                    <label for="measurementUnit" class="form-label">Jednostka miary</label>
-                    <select id="measurementUnit">
-                        <option value="g">g</option>
-                        <option value="ml">ml</option>
-                    </select>
-                </div>
-                <div id="ingredientCard" class="card mt-3 d-none">
-                    <div class="card-body">
-                        <p class="card-text">
-                            Kalorie: <span id="calculatedCalories"><strong></strong></span> kcal<br/>
-                            Białko: <span id="calculatedProtein"><strong></strong></span> g<br/>
-                            Tłuszcze: <span id="calculatedFat"><strong></strong></span> g <br/>
-                            Węglowodany: <span id="calculatedCarbs"><strong></strong></span> g<br/>
-                            Indeks glikemiczny: <span id="calculatedGlycemicIndex"><strong></strong></span> g
-                        </p>
+                <form id="ingredientForm" novalidate>
+                    <div class="form-group mb-3">
+                        <label for="ingredientSelect" class="form-label">Składnik</label>
+                        <select id="ingredientSelect" aria-describedby="ingredientSelectFeedback" required></select>
+                        <div id="ingredientSelectFeedback" class="invalid-feedback">
+                            Niepoprawny składnik.
+                        </div>
                     </div>
-                </div>
+                    <div class="mb-3">
+                        <label for="ingredientAmount">Ilość</label>
+                        <input
+                                type="number"
+                                id="ingredientAmount"
+                                name="ingredientAmount"
+                                placeholder="Ilość"
+                                class="form-control"
+                                aria-describedby="ingredientAmountFeedback"
+                                required=""/>
+                        <div id="ingredientAmountFeedback" class="invalid-feedback">
+                            Niepoprawna ilość produktu.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="measurementUnit" class="form-label">Jednostka miary</label>
+                        <select id="measurementUnit" aria-describedby="measurementUnitFeedback">
+                            <option value="g">g</option>
+                            <option value="ml">ml</option>
+                        </select>
+                        <div id="measurementUnitFeedback" class="invalid-feedback">
+                            Niepoprawna jednostka miary.
+                        </div>
+                    </div>
+                    <div id="ingredientCard" class="card mt-3 d-none">
+                        <div class="card-body">
+                            <p class="card-text">
+                                Kalorie: <span id="calculatedCalories"><strong></strong></span> kcal<br/>
+                                Białko: <span id="calculatedProtein"><strong></strong></span> g<br/>
+                                Tłuszcze: <span id="calculatedFat"><strong></strong></span> g <br/>
+                                Węglowodany: <span id="calculatedCarbs"><strong></strong></span> g<br/>
+                                Indeks glikemiczny: <span id="calculatedGlycemicIndex"><strong></strong></span> g
+                            </p>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
-                <button type="button" class="btn btn-primary" id="addIngredientBtn">Dodaj składnik</button>
+                <button type="button" class="btn btn-success" id="addIngredientBtn">Dodaj składnik</button>
             </div>
         </div>
     </div>

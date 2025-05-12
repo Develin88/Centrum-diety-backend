@@ -1,5 +1,6 @@
 package pl.cyrkoniowa.centrumdiety.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +48,24 @@ public class RecipesController {
     @GetMapping("/add-recipe")
     public String showAddRecipePage(Model model) {
         model.addAttribute("recipeDto", new RecipeDto());
+        return "dietitian/add-recipe";
+    }
+
+    /**
+     * Wyświetla stronę edycji przepisu
+     *
+     * @param request żądanie HTTP
+     * @return widok edycji przepisu
+     */
+    @GetMapping("/edit-recipe")
+    public String showEditRecipePage(HttpServletRequest request, Model model) {
+        model.addAttribute("recipeDto", new RecipeDto());
+        if(request.getParameter("name")!=null){
+            RecipeDto recipeDto = recipeService.findRecipeByName(request.getParameter("name"));
+            if(recipeDto!=null){
+                model.addAttribute("recipeDto", recipeDto);
+            }
+        }
         return "dietitian/add-recipe";
     }
 

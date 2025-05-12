@@ -42,4 +42,9 @@ public class IngredientsRestController {
                                                @RequestParam(required = false) String order) {
         return ingredientService.findIngredientsByText(textToSearch, page, size, sortBy, order);
     }
+
+    @GetMapping("/findIngredientByName")
+    public IngredientDto findIngredientByName(@RequestParam String name) {
+        return ingredientService.findIngredientByName(name);
+    }
 }

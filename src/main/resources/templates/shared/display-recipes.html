@@ -24,7 +24,7 @@
                             <button
                                     sec:authorize="hasRole(T(pl.cyrkoniowa.centrumdiety.security.Roles).DIETITIAN.getRoleName())"
                                     id="add-recipe-btn"
-                                    class="btn btn-primary"
+                                    class="btn btn-success"
                             >
                                 <i class="fa fa-plus"></i> Dodaj przepis
                             </button>
@@ -47,6 +47,7 @@
                                 <th scope="col" data-field="carbsAmount" data-sortable="true">Ilość węglowodanów<br/>(g na 100g posiłku)</th>
                                 <th scope="col" class="align-top" data-field="glycemicLoad" data-sortable="true">Ładunek glikemiczny</th>
                                 <th scope="col" data-field="preparationTime" data-sortable="true">Czas przygotowania<br/>(min)</th>
+                                <th scope="col" class="align-top text-center" data-field="actions" data-formatter="actionsFormatter">Akcje</th>
                             </tr>
                             </thead>
                         </table>

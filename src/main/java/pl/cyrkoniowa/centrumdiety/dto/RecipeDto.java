@@ -20,7 +20,7 @@ public class RecipeDto {
     private BigDecimal carbsAmount;
     private int preparationTime;
     private String preparationDescription;
-    private List<IngredientDto> ingredients;
+    private List<RecipeIngredientDto> ingredientsList;
 
     public RecipeDto(Recipe recipe) {
         this.name = recipe.getName();
@@ -31,8 +31,8 @@ public class RecipeDto {
         this.carbsAmount = recipe.getCarbsAmount();
         this.preparationTime = recipe.getPreparationTime();
         this.preparationDescription = recipe.getPreparationDescription();
-        this.ingredients = recipe.getIngredientsList().stream()
-                .map(IngredientDto::new)
+        this.ingredientsList = recipe.getIngredientsList().stream()
+                .map(RecipeIngredientDto::new)
                 .toList();
     }
 }

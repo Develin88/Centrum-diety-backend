@@ -18,6 +18,13 @@ public interface RecipeService {
     Page<RecipeDto> findRecipesByText(String textToSearch, int pageNumber, int pageSize, String sortBy, String order);
 
     /**
+     * Znajduje przepis na podstawie nazwy.
+     *
+     * @param name nazwa przepisu do wyszukania
+     */
+    RecipeDto findRecipeByName(String name);
+
+    /**
      * Zapisuje przepis na podstawie danych z formularza dodania nowego przepisu.
      *
      * @param recipeDto obiekt zawierający dane przepisu
