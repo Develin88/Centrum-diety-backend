@@ -43,15 +43,15 @@
                             </div>
                         </div>
                         <div id="hiddenIngredientsContainer"></div>
-                        <div id="ingredients-wrapper" class="form-group mb-3 d-flex flex-column align-items-center">
-                            <label class="form-label">Składniki:</label>
-                            <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div id="ingredients-wrapper" class="form-group w-25 mb-3 d-flex flex-column">
+                            <label class="form-label align-self-center">Składniki:</label>
+                            <div class="d-flex justify-content-between align-items-center mb-2 align-self-center">
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal"
                                         data-bs-target="#ingredientModal">
                                     Wybierz składnik
                                 </button>
                             </div>
-                            <div class="w-25">
+                            <div>
                                 <ul id="ingredientsList" class="list-group">
                                     <li th:each="ingredient: ${recipeDto.getIngredientsList()}" class="list-group-item d-flex align-items-center justify-content-between">
                                         <div>
@@ -59,7 +59,12 @@
                                                 <span th:text="${ingredient.getIngredientAmount()}" class="ingredient-amount"></span>
                                                 <span th:text="${ingredient.getIngredientMeasurementUnit()}" class="ingredient-measurement-unit"></span>
                                              </span>
-                                            <span th:text="${ingredient.getIngredientName()}" class="ingredient-name"></span>
+                                            <span th:text="${ingredient.getIngredientName()}" class="ingredient-name"
+                                                  th:data-caloriesAmount="${ingredient.getCaloriesAmount()}"
+                                                  th:data-carbsAmount="${ingredient.getCarbsAmount()}"
+                                                  th:data-fatsAmount="${ingredient.getFatsAmount()}"
+                                                  th:data-proteinAmount="${ingredient.getProteinAmount()}"
+                                                  th:data-glycemicIndex="${ingredient.getGlycemicIndex()}"></span>
                                         </div>
                                         <div>
                                             <button type="button" class="btn btn-success btn-sm edit-ingredient-btn">
@@ -108,94 +113,29 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="form-floating mb-3">
-                            <input
-                                    th:field="*{caloriesAmount}"
-                                    type="number"
-                                    id="caloriesAmount"
-                                    name="caloriesAmount"
-                                    placeholder="Ilość kalorii"
-                                    class="form-control"
-                                    th:classappend="${#fields.hasErrors('name') ? ' is-invalid' : ''}"
-                                    aria-describedby="caloriesAmountValidationFeedback"
-                                    required=""/>
-                            <label for="caloriesAmount">Ilość kalorii</label>
-                            <div id="caloriesAmountValidationFeedback" class="invalid-feedback">
-                                <ul>
-                                    <li th:each="err : ${#fields.errors('caloriesAmount')}" th:text="${err}"/>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input
-                                    th:field="*{glycemicLoad}"
-                                    type="text"
-                                    id="glycemicLoad"
-                                    name="glycemicLoad"
-                                    placeholder="Ładunek glikemiczny"
-                                    class="form-control"
-                                    th:classappend="${#fields.hasErrors('glycemicLoad') ? ' is-invalid' : ''}"
-                                    aria-describedby="glycemicLoadValidationFeedback"
-                                    required=""/>
-                            <label for="glycemicLoad">Ładunek glikemiczny</label>
-                            <div id="glycemicLoadValidationFeedback" class="invalid-feedback">
-                                <ul>
-                                    <li th:each="err : ${#fields.errors('glycemicLoad')}" th:text="${err}"/>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input
-                                    th:field="*{proteinAmount}"
-                                    type="number"
-                                    id="proteinAmount"
-                                    name="proteinAmount"
-                                    placeholder="Ilość białka"
-                                    class="form-control"
-                                    th:classappend="${#fields.hasErrors('proteinAmount') ? ' is-invalid' : ''}"
-                                    aria-describedby="proteinAmountValidationFeedback"
-                                    required=""/>
-                            <label for="proteinAmount">Ilość białka</label>
-                            <div id="proteinAmountValidationFeedback" class="invalid-feedback">
-                                <ul>
-                                    <li th:each="err : ${#fields.errors('proteinAmount')}" th:text="${err}"/>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input
-                                    th:field="*{fatsAmount}"
-                                    type="number"
-                                    id="fatsAmount"
-                                    name="fatsAmount"
-                                    placeholder="Ilość tłuszczów"
-                                    class="form-control"
-                                    th:classappend="${#fields.hasErrors('fatsAmount') ? ' is-invalid' : ''}"
-                                    aria-describedby="fatsAmountValidationFeedback"
-                                    required=""/>
-                            <label for="fatsAmount">Ilość tłuszczów</label>
-                            <div id="fatsAmountValidationFeedback" class="invalid-feedback">
-                                <ul>
-                                    <li th:each="err : ${#fields.errors('fatsAmount')}" th:text="${err}"/>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input
-                                    th:field="*{carbsAmount}"
-                                    type="number"
-                                    id="carbsAmount"
-                                    name="carbsAmount"
-                                    placeholder="Ilość węglowodanów"
-                                    class="form-control"
-                                    th:classappend="${#fields.hasErrors('carbsAmount') ? ' is-invalid' : ''}"
-                                    aria-describedby="carbsAmountValidationFeedback"
-                                    required=""/>
-                            <label for="carbsAmount">Ilość węglowodanów</label>
-                            <div id="carbsAmountValidationFeedback" class="invalid-feedback">
-                                <ul>
-                                    <li th:each="err : ${#fields.errors('carbsAmount')}" th:text="${err}"/>
-                                </ul>
+                        <div id="nutritionSummary" class="card shadow" style="position: fixed; bottom: 20px; right: 20px; width: 300px; z-index: 1050;">
+                            <div class="card-body">
+                                <h5 class="card-title">Podsumowanie</h5>
+                                <div class="form-group mb-2">
+                                    <label for="caloriesAmount">Kalorie (kcal)</label>
+                                    <input type="number" th:field="*{caloriesAmount}" id="caloriesAmount" class="form-control" readonly>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="proteinAmount">Białko (g)</label>
+                                    <input type="number" th:field="*{proteinAmount}" id="proteinAmount" class="form-control" readonly>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="fatsAmount">Tłuszcze (g)</label>
+                                    <input type="number" th:field="*{fatsAmount}" id="fatsAmount" class="form-control" readonly>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="carbsAmount">Węglowodany (g)</label>
+                                    <input type="number" th:field="*{carbsAmount}" id="carbsAmount" class="form-control" readonly>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="glycemicLoad">Ładunek glikemiczny</label>
+                                    <input type="text" th:field="*{glycemicLoad}" id="glycemicLoad" class="form-control" readonly>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -213,7 +153,7 @@
 </main>
 
 <div class="modal fade" id="ingredientModal" tabindex="-1" aria-labelledby="ingredientModalLabel" aria-hidden="true">
-    <div class="modal-dialog me-auto ms-5 modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ingredientModalLabel">Wybierz składnik</h5>

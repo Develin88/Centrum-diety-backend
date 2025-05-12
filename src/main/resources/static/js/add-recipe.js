@@ -53,6 +53,7 @@ $(document).ready(function() {
     $ingredientsList.on('click', '.edit-ingredient-btn', function () {
         editIngredient($(this).closest('li'));
     });
+    updateNutritionSummary();
 });
 
 function calculateIngredientInfo(){
@@ -117,7 +118,12 @@ function addIngredientToRecipe() {
                             <span class="badge text-bg-success rounded-pill me-2">
                               <span class="ingredient-amount">${recipeIngredient.amount}</span> <span class="ingredient-measurement-unit">${recipeIngredient.measurementUnit}</span>
                             </span>
-                            <span class="ingredient-name">${recipeIngredient.name}</span>
+                            <span class="ingredient-name" 
+                                    data-caloriesAmount="${ingredientData[0].caloriesAmount}"
+                                    data-carbsAmount="${ingredientData[0].carbsAmount}"
+                                    data-fatsAmount="${ingredientData[0].fatsAmount}"
+                                    data-proteinAmount="${ingredientData[0].proteinAmount}"
+                                    data-glycemicIndex="${ingredientData[0].glycemicIndex}">${recipeIngredient.name}</span>
                           </div>
                           <div>
                             <button type="button" class="btn btn-success btn-sm edit-ingredient-btn">
@@ -140,6 +146,7 @@ function addIngredientToRecipe() {
             $('#ingredientsList').append($li);
         }
         updateHiddenIngredients();
+        updateNutritionSummary();
     }
     $('#ingredientModal').modal('hide');
 }
@@ -147,6 +154,7 @@ function addIngredientToRecipe() {
 function deleteIngredient($ingredientElement){
     $ingredientElement.remove();
     updateHiddenIngredients();
+    updateNutritionSummary();
 }
 
 function editIngredient($ingredientElement){
@@ -193,4 +201,61 @@ function updateHiddenIngredients() {
         $container.append(`<input type="hidden" name="ingredientsList[${index}].ingredientAmount" value="${amount}" />`);
         $container.append(`<input type="hidden" name="ingredientsList[${index}].ingredientMeasurementUnit" value="${unit}" />`);
     });
+}
+
+
+function updateNutritionSummary() {
+    let totalCalories = 0;
+    let totalProtein = 0;
+    let totalFats = 0;
+    let totalCarbs = 0;
+    let weightedGI = 0;
+    let totalWeight = 0;
+
+    $('#ingredientsList li').each(function () {
+        const $li = $(this);
+        const $ingredientElement = $li.find('.ingredient-name');
+        const amount = parseFloat($li.find('.ingredient-amount').text().trim()) || 0;
+        const unit = $li.find('.ingredient-measurement-unit').text().trim();
+
+        const caloriesAmount = parseFloat($ingredientElement.data('caloriesamount'));
+        const carbsAmount = parseFloat($ingredientElement.data('carbsamount'));
+        const fatsAmount = parseFloat($ingredientElement.data('fatsamount'));
+        const proteinAmount = parseFloat($ingredientElement.data('proteinamount'));
+        const glycemicIndex = parseFloat($ingredientElement.data('glycemicindex'));
+
+        const factor = unit === 'g' || unit === 'ml' ? (amount / 100.0) : 1;
+
+        totalCalories += (caloriesAmount || 0) * factor;
+        totalProtein += (proteinAmount || 0) * factor;
+        totalFats += (fatsAmount || 0) * factor;
+        totalCarbs += (carbsAmount || 0) * factor;
+
+        weightedGI += (glycemicIndex || 0) * amount;
+        totalWeight += amount;
+    });
+
+    $('#caloriesAmount').val(totalCalories.toFixed(1));
+    $('#proteinAmount').val(totalProtein.toFixed(1));
+    $('#fatsAmount').val(totalFats.toFixed(1));
+    $('#carbsAmount').val(totalCarbs.toFixed(1));
+
+    let glycemicLoadText = 'n/a';
+    let glycemicLoadClass = 'form-control';
+
+    if (totalWeight > 0) {
+        const avgGI = weightedGI / totalWeight;
+        if (avgGI < 55) {
+            glycemicLoadText = 'Niski';
+            glycemicLoadClass += ' text-white bg-success';
+        } else if (avgGI < 70) {
+            glycemicLoadText = 'Średni';
+            glycemicLoadClass += ' text-dark bg-warning';
+        } else {
+            glycemicLoadText = 'Wysoki';
+            glycemicLoadClass += ' text-white bg-danger';
+        }
+    }
+
+    $('#glycemicLoad').val(glycemicLoadText).attr('class', glycemicLoadClass);
 }

@@ -62,5 +62,36 @@ body {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="%237B83DB"><path d="m136.94959,471.6c-9.3763,12.5 -24.60342,12.5 -33.97972,0l-96.01334,-128c-6.90096,-9.2 -8.92624,-22.9 -5.17572,-34.9s12.45173,-19.8 22.20308,-19.8l192.02667,0c9.67634,0 18.45256,7.8 22.20308,19.8s1.65023,25.7 -5.17572,34.9l-96.01334,128l-0.07501,0z"/></svg>')
 }
 
+#nutritionSummary {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1050;
+    width: 300px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+    padding: 1rem;
+}
 
+#nutritionSummary input.form-control[readonly] {
+    background-color: #e9ecef;
+    font-weight: bold;
+}
+
+.glycemic-low {
+    color: #155724;
+    background-color: #d4edda;
+}
+
+.glycemic-medium {
+    color: #856404;
+    background-color: #fff3cd;
+}
+
+.glycemic-high {
+    color: #721c24;
+    background-color: #f8d7da;
+}
 
