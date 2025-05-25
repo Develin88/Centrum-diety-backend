@@ -35,6 +35,5 @@ const IngredientsTable = (() => {
 })();
 
 
-IngredientsTable.init();
 window.fetchIngredientsData = IngredientsTable.fetchIngredientsData;
 window.actionsFormatter = IngredientsTable.actionsFormatter;
